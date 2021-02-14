@@ -15,16 +15,15 @@ struct Board {
 
 #[derive(Debug)]
 struct Ball {
-    pos: (i32, i32),
-    velocity: (i32, i32),
+    pos: (f32, f32),
+    velocity: (f32, f32),
 }
 
 impl Game {
     fn new() -> Game {
-        Game {
-            board: Board::new(),
-            ball: Ball::new(),
-        }
+        let board = Board::new();
+        let ball = Ball::new(&board);
+        Game { board, ball }
     }
 
     fn tick(&mut self) {
@@ -39,20 +38,22 @@ impl Board {
 }
 
 impl Ball {
-    fn new() -> Ball {
+    fn new(board: &Board) -> Ball {
+        let r = |i: i32| rand::random::<f32>() * i as f32;
+        let v = || r(6) - 3.;
         Ball {
-            pos: (0, 0),
-            velocity: (1, 1),
+            pos: (r(board.size.0), r(board.size.1)),
+            velocity: (v(), v()),
         }
     }
 
     fn update(&mut self, board: &Board) {
         self.pos = (self.pos.0 + self.velocity.0, self.pos.1 + self.velocity.1);
-        if self.pos.0 < 0 || self.pos.0 >= board.size.0 {
+        if self.pos.0 < 0. || self.pos.0 >= board.size.0 as f32 {
             self.velocity.0 = -self.velocity.0;
             self.pos.0 += self.velocity.0
         }
-        if self.pos.1 < 0 || self.pos.1 >= board.size.1 {
+        if self.pos.1 < 0. || self.pos.1 >= board.size.1 as f32 {
             self.velocity.1 = -self.velocity.1;
             self.pos.1 += self.velocity.1
         }
@@ -72,12 +73,12 @@ impl Display for Game {
         border(f)?;
         for r in 0..self.board.size.1 {
             write!(f, "\n|")?;
-            if r == self.ball.pos.1 {
+            if r == self.ball.pos.1 as i32 {
                 for c in 0..self.board.size.0 {
                     write!(
                         f,
                         "{}",
-                        if c == self.ball.pos.0 {
+                        if c == self.ball.pos.0 as i32 {
                             "\x1b[91m◉\x1b[0m"
                         } else {
                             " "
@@ -98,7 +99,8 @@ impl Display for Game {
 
 fn main() {
     let mut game = Game::new();
-    let delay = Duration::from_secs_f32(1. / 24.);
+    println!("{:?}", game.ball);
+    let delay = Duration::from_secs_f32(1. / 30.);
     loop {
         println!("{}", game);
         thread::sleep(delay);
