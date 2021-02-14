@@ -10,7 +10,8 @@ It works!
 What I feel I could do next (in order of complexity):
 
 - ~random initial ball position and velocity~ done in `v0.2.0`
-- several balls at the same time
+- ~several balls at the same time~ done in `v0.3.0`
+- random balls color
 - accept CLI arguments (clap or structopt)
 - variable board size
 - configurable ball char and color

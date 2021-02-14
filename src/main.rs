@@ -4,8 +4,10 @@ use std::time::Duration;
 
 #[derive(Debug)]
 struct Game {
+    frame: usize,
     board: Board,
-    ball: Ball,
+    balls: Vec<Ball>,
+    balls_pos: Vec<(i32, i32)>,
 }
 
 #[derive(Debug)]
@@ -20,14 +22,26 @@ struct Ball {
 }
 
 impl Game {
-    fn new() -> Game {
+    fn new(num_balls: usize) -> Game {
         let board = Board::new();
-        let ball = Ball::new(&board);
-        Game { board, ball }
+        let balls = (0..num_balls).map(|_| Ball::new(&board)).collect();
+        Game {
+            frame: 0,
+            board,
+            balls,
+            balls_pos: vec![(0, 0); num_balls],
+        }
     }
 
     fn tick(&mut self) {
-        self.ball.update(&self.board);
+        for b in self.balls.iter_mut() {
+            b.update(&self.board)
+        }
+        self.balls_pos
+            .iter_mut()
+            .zip(self.balls.iter())
+            .for_each(|(p, b)| *p = (b.pos.0 as i32, b.pos.1 as i32));
+        self.frame += 1;
     }
 }
 
@@ -70,39 +84,43 @@ impl Display for Game {
             write!(f, "+")?;
             Ok(())
         };
+
+        writeln!(f, "frame: {}", self.frame)?;
         border(f)?;
         for r in 0..self.board.size.1 {
             write!(f, "\n|")?;
-            if r == self.ball.pos.1 as i32 {
-                for c in 0..self.board.size.0 {
-                    write!(
-                        f,
-                        "{}",
-                        if c == self.ball.pos.0 as i32 {
-                            "\x1b[91m◉\x1b[0m"
-                        } else {
-                            " "
-                        }
-                    )?
-                }
-            } else {
-                for _ in 0..self.board.size.0 {
-                    write!(f, " ")?
-                }
+            for c in 0..self.board.size.0 {
+                write!(
+                    f,
+                    "{}",
+                    if self.balls_pos.iter().any(|&(x, y)| x == c && y == r) {
+                        "\x1b[91m◉\x1b[0m"
+                    } else {
+                        " "
+                    }
+                )?
             }
             write!(f, "|")?
         }
-        write!(f, "\n")?;
+        writeln!(f)?;
         border(f)
     }
 }
 
 fn main() {
-    let mut game = Game::new();
-    println!("{:?}", game.ball);
+    let mut game = Game::new(5);
+    println!(
+        "{}",
+        game.balls
+            .iter()
+            .enumerate()
+            .map(|(i, b)| format!("{}: {:?}", i + 1, b))
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
     let delay = Duration::from_secs_f32(1. / 30.);
     loop {
-        println!("{}", game);
+        print!("{}", game);
         thread::sleep(delay);
         game.tick();
         println!("\x1b[{}A", game.board.size.1 + 3);
