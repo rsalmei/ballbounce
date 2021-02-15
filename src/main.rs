@@ -84,8 +84,7 @@ impl Display for Game {
             for _ in 0..self.board.size.0 {
                 write!(f, "-")?;
             }
-            write!(f, "+")?;
-            Ok(())
+            write!(f, "+")
         };
 
         writeln!(f, "frame: {}", self.frame)?;
