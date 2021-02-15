@@ -25,13 +25,15 @@ How I feel I can challenge myself even more (in order of complexity):
     - known issue: when more than one ball is at the same cell, only the first found one is drawn.
 - make the ball #1 always a red ◉, and remove duplications
 - detect overlaps and paint differently
-- dynamically insert or remove balls
+- commands to dynamically insert and remove balls
+- command to reset colors and formats, maintaining the board
 - make the balls leave a trail
 - include CLI arguments (clap or structopt) for board size, initial number of balls and fps
 - implement trail behaviors, like decaying and following (snake!)
 - implement collision behaviors, like destroy and explode (more balls are generated)
+- implement movement behaviors, like acceleration, parabola and even wander
 - walls and other obstacles inside the board
-- maybe at this point it could even turn into a game! a breakout or pong of some sort
+- maybe at this point it could even turn into a game! a breakout or pong or snake or asteroid of some sort
 - make the balls collide with each other
 - balls of different shapes (n x m chars)
 
