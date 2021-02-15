@@ -3,8 +3,17 @@
 
 I'm learning Rust, this is a small and fun project just to challenge myself.
 
-It works! This is the first version, with fixed integer position and velocity:
+It works! This is the `v0.4.0`:
+![ballbounce-v4](img/ballbounce-v4.gif)
+
+<details>
+<summary>It was a long way to get to the above... Here are some pieces of this journey.</summary>
+
+This was the first version.
 ![ballbounce-v1](img/ballbounce.gif)
+</details>
+
+---
 
 How I feel I can challenge myself even more (in order of complexity):
 
