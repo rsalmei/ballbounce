@@ -3,18 +3,28 @@
 
 I'm learning Rust, this is a small and fun project just to challenge myself.
 
-It works!
+It works! This is the first version, with fixed integer position and velocity:
+![ballbounce-v1](img/ballbounce.gif)
 
-![demo](img/ballbounce.gif)
+How I feel I can challenge myself even more (in order of complexity):
 
-What I feel I could do next (in order of complexity):
-
+- ~first version, with fixed integer position and velocity~ done in `v0.1.0`
+    - defined project structure, with data, main loop and animation steps;
+    - implemented Display.
 - ~random initial ball position and velocity~ done in `v0.2.0`
+    - this has introduced floating point positions and velocity, enabling much more freedom of movements.
 - ~several balls at the same time~ done in `v0.3.0`
+    - this tests every cell for any ball in there, but Rust is FAST;
+    - caches the ball positions in i32s, with only one allocation, to try to reduce impact of the above;
+    - I've included a frame counter, to see if the terminal was actually refreshing (it was hard to find those balls! 😅).
 - ~random balls color and representation~ done in `v0.4.0`
-    => known issue: when more than one ball is at the same cell, only the first one is drawn
-- make the first ball always a red ◉, and remove duplications
-- detect collisions and paint differently
+    - introduces a cool new color system using a macro;
+    - removed the ball positions cache, as I needed the actual balls with their positions;
+        - switched for a method that does the cast on demand for each ball for each cell (have I said Rust is FAST?);
+    - removed the frame counter;
+    - known issue: when more than one ball is at the same cell, only the first found one is drawn.
+- make the ball #1 always a red ◉, and remove duplications
+- detect overlaps and paint differently
 - dynamically insert or remove balls
 - make the balls leave a trail
 - include CLI arguments (clap or structopt) for board size, initial number of balls and fps
