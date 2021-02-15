@@ -17,7 +17,7 @@ struct Board {
 
 #[derive(Debug)]
 struct Ball {
-    pos: (f32, f32),
+    position: (f32, f32),
     velocity: (f32, f32),
 }
 
@@ -56,20 +56,23 @@ impl Ball {
         let r = |i: i32| rand::random::<f32>() * i as f32;
         let v = || r(6) - 3.;
         Ball {
-            pos: (r(board.size.0), r(board.size.1)),
+            position: (r(board.size.0), r(board.size.1)),
             velocity: (v(), v()),
         }
     }
 
     fn update(&mut self, board: &Board) {
-        self.pos = (self.pos.0 + self.velocity.0, self.pos.1 + self.velocity.1);
-        if self.pos.0 < 0. || self.pos.0 >= board.size.0 as f32 {
+        self.position = (
+            self.position.0 + self.velocity.0,
+            self.position.1 + self.velocity.1,
+        );
+        if self.position.0 < 0. || self.position.0 >= board.size.0 as f32 {
             self.velocity.0 = -self.velocity.0;
-            self.pos.0 += self.velocity.0
+            self.position.0 += self.velocity.0
         }
-        if self.pos.1 < 0. || self.pos.1 >= board.size.1 as f32 {
+        if self.position.1 < 0. || self.position.1 >= board.size.1 as f32 {
             self.velocity.1 = -self.velocity.1;
-            self.pos.1 += self.velocity.1
+            self.position.1 += self.velocity.1
         }
     }
 }
