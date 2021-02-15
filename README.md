@@ -11,7 +11,8 @@ What I feel I could do next (in order of complexity):
 
 - ~random initial ball position and velocity~ done in `v0.2.0`
 - ~several balls at the same time~ done in `v0.3.0`
-- random balls color and representation
+- ~random balls color and representation~ done in `v0.4.0`
+    => known issue: when more than one ball is at the same cell, only the first one is drawn
 - make the first ball always a red ◉, and remove duplications
 - detect collisions and paint differently
 - dynamically insert or remove balls
