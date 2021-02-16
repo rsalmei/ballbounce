@@ -32,7 +32,8 @@ How I feel I can challenge myself even more (in order of complexity):
         - switched for a method that does the cast on demand for each ball for each cell (have I said Rust is FAST?);
     - removed the frame counter;
     - known issue: when more than one ball is at the same cell, only the first found one is drawn.
-- make the ball #1 always a red ◉, and remove duplications
+- implement an inversion of control in the drawing system: instead of the board testing balls, the balls draw themselves in the board
+- make the #1 ball always a red ◉, and remove duplications
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board
