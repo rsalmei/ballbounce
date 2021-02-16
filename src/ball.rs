@@ -1,5 +1,5 @@
 use crate::board::Board;
-use crate::colors::Color;
+use crate::colors::{Color, Style};
 use rand::seq::IteratorRandom;
 use rand::Rng;
 use std::fmt::{Display, Formatter, Result};
@@ -50,7 +50,9 @@ impl Ball {
 impl Display for Ball {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         style!(f, self.color, self.repr)?;
-        write!(f, "\tposition{:?}", self.position)?;
-        write!(f, "\tvelocity{:?}", self.velocity)
+        style!(f, Style::DIM, "\tposition")?;
+        write!(f, "{:?}", self.position)?;
+        style!(f, Style::DIM, "\tvelocity")?;
+        write!(f, "{:?}", self.velocity)
     }
 }

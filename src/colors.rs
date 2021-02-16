@@ -2,8 +2,8 @@ use rand::distributions::{Distribution, Standard};
 use rand::Rng;
 
 macro_rules! style {
-    ($f:expr, $s:expr, $t:expr) => {
-        write!($f, "{}{}{}", $s.data(), $t, "\x1b[0m")
+    ($f:ident, $s:expr, $t:expr) => {
+        write!($f, "{}{}{}", $s.data(), $t, $crate::colors::Style::RESET)
     };
 }
 
@@ -52,6 +52,28 @@ impl Distribution<Color> for Standard {
             4 => Color::MAGENTA,
             5 => Color::CYAN,
             _ => Color::ORANGE,
+        }
+    }
+}
+
+#[allow(dead_code)]
+#[derive(Debug)]
+pub enum Style {
+    BOLD,
+    DIM,
+    ITALIC,
+    UNDERLINE,
+}
+
+impl Style {
+    pub const RESET: &'static str = "\x1b[0m";
+
+    pub fn data(&self) -> &str {
+        match *self {
+            Style::BOLD => "\x1b[1m",
+            Style::DIM => "\x1b[2m",
+            Style::ITALIC => "\x1b[3m",
+            Style::UNDERLINE => "\x1b[4m",
         }
     }
 }
