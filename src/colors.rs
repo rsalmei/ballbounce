@@ -1,7 +1,6 @@
 use rand::distributions::{Distribution, Standard};
 use rand::Rng;
 
-#[macro_export]
 macro_rules! style {
     ($f:expr, $s:expr, $t:expr) => {
         write!($f, "{}{}{}", $s.data(), $t, "\x1b[0m")
