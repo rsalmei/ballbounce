@@ -46,4 +46,12 @@ How I feel I can challenge myself even more (in order of complexity):
 - make the balls collide with each other
 - balls of different shapes (n x m chars)
 
-Enjoy 😊
+---
+
+Ok, what do you think?
+- Is it efficient?
+- Is it idiomatic?
+- Could it improve in any other way?
+
+You can help me! Please open an issue and tell me about it...
+<br>Thank you!
