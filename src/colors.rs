@@ -19,7 +19,8 @@ macro_rules! style {
 
 #[allow(dead_code)]
 #[derive(Debug)]
-pub enum Color {
+pub enum Style {
+    // colors.
     BLUE,
     GREEN,
     YELLOW,
@@ -27,54 +28,46 @@ pub enum Color {
     MAGENTA,
     CYAN,
     ORANGE,
-}
-
-impl Color {
-    pub fn data(&self) -> &str {
-        match *self {
-            Color::BLUE => "\x1b[94m",
-            Color::GREEN => "\x1b[92m",
-            Color::YELLOW => "\x1b[93m",
-            Color::RED => "\x1b[91m",
-            Color::MAGENTA => "\x1b[95m",
-            Color::CYAN => "\x1b[96m",
-            Color::ORANGE => "\x1b[38;5;208m",
-        }
-    }
-}
-
-impl Distribution<Color> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Color {
-        match rng.gen_range(0..7) {
-            0 => Color::BLUE,
-            1 => Color::GREEN,
-            2 => Color::YELLOW,
-            3 => Color::RED,
-            4 => Color::MAGENTA,
-            5 => Color::CYAN,
-            _ => Color::ORANGE,
-        }
-    }
-}
-
-#[allow(dead_code)]
-#[derive(Debug)]
-pub enum Style {
+    // decorations.
     BOLD,
     DIM,
     ITALIC,
     UNDERLINE,
+    RESET,
 }
 
 impl Style {
     pub const RESET: &'static str = "\x1b[0m";
 
+impl Style {
     pub fn data(&self) -> &str {
         match *self {
+            Style::BLUE => "\x1b[94m",
+            Style::GREEN => "\x1b[92m",
+            Style::YELLOW => "\x1b[93m",
+            Style::RED => "\x1b[91m",
+            Style::MAGENTA => "\x1b[95m",
+            Style::CYAN => "\x1b[96m",
+            Style::ORANGE => "\x1b[38;5;208m",
             Style::BOLD => "\x1b[1m",
             Style::DIM => "\x1b[2m",
             Style::ITALIC => "\x1b[3m",
             Style::UNDERLINE => "\x1b[4m",
+            Style::RESET => "\x1b[0m",
+        }
+    }
+}
+
+impl Distribution<Style> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Style {
+        match rng.gen_range(0..7) {
+            0 => Style::BLUE,
+            1 => Style::GREEN,
+            2 => Style::YELLOW,
+            3 => Style::RED,
+            4 => Style::MAGENTA,
+            5 => Style::CYAN,
+            _ => Style::ORANGE,
         }
     }
 }

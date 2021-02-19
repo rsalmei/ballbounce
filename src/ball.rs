@@ -1,5 +1,5 @@
 use crate::board::Board;
-use crate::colors::{Color, Style};
+use crate::colors::Style;
 use rand::seq::IteratorRandom;
 use rand::Rng;
 use std::fmt::{Display, Formatter, Result};
@@ -8,7 +8,7 @@ use std::fmt::{Display, Formatter, Result};
 pub struct Ball {
     position: (f32, f32),
     velocity: (f32, f32),
-    pub color: Color,
+    pub color: Style,
     pub repr: char,
 }
 
