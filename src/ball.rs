@@ -49,10 +49,8 @@ impl Ball {
 
 impl Display for Ball {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        style!(f, self.color, self.repr)?;
-        style!(f, Style::DIM, "\tposition")?;
-        write!(f, "{:?}", self.position)?;
-        style!(f, Style::DIM, "\tvelocity")?;
-        write!(f, "{:?}", self.velocity)
+        write!(f, "{}", style!(self.color, self.repr))?;
+        write!(f, "{}{:?}", style!(Style::DIM, "\tposition"), self.position)?;
+        write!(f, "{}{:?}", style!(Style::DIM, "\tvelocity"), self.velocity)
     }
 }

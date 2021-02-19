@@ -1,9 +1,10 @@
 use rand::distributions::{Distribution, Standard};
 use rand::Rng;
 
+/// This enables to color only parts of a text.
 macro_rules! style {
-    ($f:ident, $s:expr, $t:expr) => {
-        write!($f, "{}{}{}", $s.data(), $t, $crate::colors::Style::RESET)
+    ($s:expr, $t:expr) => {
+        format_args!("{}{}{}", $s.data(), $t, $crate::colors::Style::RESET)
     };
 }
 

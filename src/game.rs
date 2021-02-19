@@ -34,15 +34,15 @@ impl Display for Game {
 
         border(f)?;
         for r in 0..self.board.size.1 {
-            write!(f, "\n|")?;
+            write!(f, "\n{}", style!(Style::RED, "|"))?;
             for c in 0..self.board.size.0 {
                 if let Some(ball) = self.balls.iter().find(|b| b.pos_i32() == (c, r)) {
-                    style!(f, ball.color, ball.repr)?
+                    write!(f, "{}", style!(ball.color, ball.repr))?
                 } else {
                     write!(f, " ")?
                 }
             }
-            write!(f, "|")?
+            write!(f, "{}", style!(Style::RED, "|"))?
         }
         writeln!(f)?;
         border(f)
