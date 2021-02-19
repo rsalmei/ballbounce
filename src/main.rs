@@ -6,7 +6,10 @@ mod game;
 
 use game::Game;
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
+
+const FRAMES_PER_SECOND: u32 = 30;
+const SKIP_TICKS: u32 = 1000 / FRAMES_PER_SECOND;
 
 fn main() {
     let mut game = Game::new(5);
@@ -19,11 +22,19 @@ fn main() {
             .collect::<Vec<_>>()
             .join("\n")
     );
-    let delay = Duration::from_secs_f32(1. / 30.);
+
+    let mut start;
+    let mut sleep_time;
     loop {
-        print!("{}", game);
-        thread::sleep(delay);
-        game.tick();
+        start = Instant::now();
+        // process input.
+        game.tick(); // update game.
+        print!("{}", game); // display game.
+
+        sleep_time = SKIP_TICKS as i32 - start.elapsed().as_millis() as i32;
+        if sleep_time >= 0 {
+            thread::sleep(Duration::from_millis(sleep_time as u64));
+        }
         println!("\x1b[{}A", game.board.size.1 + 2);
     }
 }
