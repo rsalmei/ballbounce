@@ -21,6 +21,15 @@ impl Game {
             b.update(&self.board)
         }
     }
+
+    pub fn caption(&self) -> String {
+        self.balls
+            .iter()
+            .enumerate()
+            .map(|(i, b)| format!("{}: {}", i + 1, b))
+            .collect::<Vec<_>>()
+            .join("\n")
+    }
 }
 
 impl Display for Game {

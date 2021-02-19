@@ -13,15 +13,7 @@ const SKIP_TICKS: u32 = 1000 / FRAMES_PER_SECOND;
 
 fn main() {
     let mut game = Game::new(5);
-    println!(
-        "{}",
-        game.balls
-            .iter()
-            .enumerate()
-            .map(|(i, b)| format!("{}: {}", i + 1, b))
-            .collect::<Vec<_>>()
-            .join("\n")
-    );
+    println!("{}", game.caption());
 
     let mut start;
     let mut sleep_time;
