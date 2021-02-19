@@ -1,5 +1,6 @@
 use rand::distributions::{Distribution, Standard};
 use rand::Rng;
+use std::fmt::{self, Display, Formatter};
 
 /// This enables to color only parts of a text.
 macro_rules! style {
@@ -36,8 +37,11 @@ pub enum Style {
     RESET,
 }
 
-impl Style {
-    pub const RESET: &'static str = "\x1b[0m";
+impl Display for Style {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.data())
+    }
+}
 
 impl Style {
     pub fn data(&self) -> &str {

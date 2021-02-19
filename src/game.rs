@@ -1,6 +1,6 @@
 use crate::ball::Ball;
 use crate::board::Board;
-use std::fmt::{Display, Formatter, Result};
+use crate::colors::Style;
 
 #[derive(Debug)]
 pub struct Game {
@@ -25,11 +25,11 @@ impl Game {
 impl Display for Game {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         let border = |f: &mut Formatter<'_>| {
-            write!(f, "+")?;
+            write!(f, "{}+", Style::RED)?;
             for _ in 0..self.board.size.0 {
                 write!(f, "-")?;
             }
-            write!(f, "+")
+            write!(f, "+{}", Style::RESET)
         };
 
         border(f)?;
