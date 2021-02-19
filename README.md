@@ -19,7 +19,7 @@ How I feel I can challenge myself even more (in order of complexity):
 
 - ~first version, with fixed integer position and velocity~ done in `v0.1.0`
     - defined project structure, with data, main loop and animation steps;
-    - implemented Display.
+    - implemented Display for Game.
 - ~random initial ball position and velocity~ done in `v0.2.0`
     - this has introduced floating point positions and velocity, enabling much more freedom of movements.
 - ~several balls at the same time~ done in `v0.3.0`
@@ -33,6 +33,11 @@ How I feel I can challenge myself even more (in order of complexity):
     - removed the frame counter;
     - known issue: when more than one ball is at the same cell, only the first found one is drawn.
 - implement an inversion of control in the drawing system: instead of the board testing balls, the balls draw themselves in the board
+    - refactored the whole project to split modules (which introduced nice visibility concerns);
+    - implemented an actual game loop;
+    - improved the `style!` macro with `format_args!`, enabling to style only parts of a text;
+    - merged colors and styles, reducing code duplication;
+    - implemented Display for Style, so blocks of text can be styled directly, without unnecessary replicated styles;
 - make the #1 ball always a red ◉, and remove duplications
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
