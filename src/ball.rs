@@ -17,7 +17,7 @@ impl Ball {
 
     pub fn new(board: &Board) -> Ball {
         let mut rng = rand::thread_rng();
-        let r = |i: i32| rand::random::<f32>() * i as f32; // WOW, I couldn't find a way to use `rng` here.
+        let r = |i: usize| rand::random::<f32>() * i as f32; // WOW, I couldn't find a way to use `rng` here.
         let v = || r(4) - 2.;
         Ball {
             position: (r(board.size.0), r(board.size.1)),
@@ -42,8 +42,8 @@ impl Ball {
         }
     }
 
-    pub fn pos_i32(&self) -> (i32, i32) {
-        (self.position.0 as i32, self.position.1 as i32)
+    pub fn actual_pos(&self) -> (usize, usize) {
+        (self.position.0 as usize, self.position.1 as usize)
     }
 }
 

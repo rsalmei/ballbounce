@@ -1,10 +1,11 @@
 #[derive(Debug)]
 pub struct Board {
-    pub size: (i32, i32),
+    pub size: (usize, usize),
 }
 
 impl Board {
     pub fn new() -> Board {
-        Board { size: (81, 20) }
+        let size = (81, 20);
+        Board { size }
     }
 }

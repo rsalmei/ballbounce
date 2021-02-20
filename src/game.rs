@@ -52,7 +52,7 @@ impl Display for Game {
         for r in 0..self.board.size.1 {
             write!(f, "\n{}", style!(Style::RED, "|"))?;
             for c in 0..self.board.size.0 {
-                if let Some(ball) = self.balls.iter().find(|b| b.pos_i32() == (c, r)) {
+                if let Some(ball) = self.balls.iter().find(|b| b.actual_pos() == (c, r)) {
                     write!(f, "{}", style!(ball.color, ball.repr))?
                 } else {
                     write!(f, " ")?
