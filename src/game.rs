@@ -16,10 +16,16 @@ impl Game {
         Game { board, balls }
     }
 
-    pub fn tick(&mut self) {
+    pub fn process_input(&mut self) {}
+
+    pub fn update(&mut self) {
         for b in self.balls.iter_mut() {
             b.update(&self.board)
         }
+    }
+
+    pub fn render(&mut self) {
+        print!("{}", self);
     }
 
     pub fn caption(&self) -> String {

@@ -15,15 +15,15 @@ fn main() {
     let mut game = Game::new(5);
     println!("{}", game.caption());
 
-    let mut start;
-    let mut sleep_time;
     loop {
-        start = Instant::now();
-        // process input.
-        game.tick(); // update game.
-        print!("{}", game); // display game.
+        let start = Instant::now();
+        // main game loop.
+        game.process_input();
+        game.update();
+        game.render();
+        let frame_time = start.elapsed(); // TODO how to sample the average `frame_time` per second?
 
-        sleep_time = SKIP_TICKS as i32 - start.elapsed().as_millis() as i32;
+        let sleep_time = SKIP_TICKS as i64 - frame_time.as_millis() as i64;
         if sleep_time >= 0 {
             thread::sleep(Duration::from_millis(sleep_time as u64));
         }
