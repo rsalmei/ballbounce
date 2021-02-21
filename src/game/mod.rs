@@ -25,6 +25,9 @@ impl Game {
     }
 
     pub fn render(&mut self) {
+        for b in self.balls.iter() {
+            b.draw_to(&mut self.frame_buffer_back)
+        }
         print!("{}", self);
     }
 

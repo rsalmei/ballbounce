@@ -1,5 +1,6 @@
 use crate::board::Board;
 use crate::colors::Style;
+use crate::game::FrameBuffer;
 use rand::seq::IteratorRandom;
 use rand::Rng;
 use std::fmt::{Display, Formatter, Result};
@@ -44,6 +45,10 @@ impl Ball {
 
     pub fn actual_pos(&self) -> (usize, usize) {
         (self.position.0 as usize, self.position.1 as usize)
+    }
+
+    pub fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
+        frame_buffer.draw(self.actual_pos(), self.color, self.repr);
     }
 }
 

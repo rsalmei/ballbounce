@@ -39,6 +39,7 @@ How I feel I can challenge myself even more (in order of complexity):
     - merged colors and styles, reducing code duplication;
     - implemented Display for Style, so blocks of text can be styled directly, without unnecessary replicated styles;
     - created a FrameBuffer system, which stores and renders game data without any allocations;
+    - inverted the control in the drawing system: instead of the board testing balls, the balls draw themselves into the board;
 - make the #1 ball always a red ◉, and remove duplications
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
