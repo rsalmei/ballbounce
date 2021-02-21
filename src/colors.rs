@@ -2,7 +2,9 @@ use rand::distributions::{Distribution, Standard};
 use rand::Rng;
 use std::fmt::{self, Display, Formatter};
 
-/// This enables to color only parts of a text.
+/// This enables to style only parts of a text, inside the same format! or write!.
+/// Example:
+///     write!(f, "result: {}, time: {}", style!(Style::RED, result), time)?;
 macro_rules! style {
     ($s:expr, $t:expr) => {
         format_args!("{}{}{}", $s.data(), $t, $crate::colors::Style::RESET)
@@ -19,7 +21,7 @@ macro_rules! style {
 // }
 
 #[allow(dead_code)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum Style {
     // colors.
     BLUE,
@@ -45,7 +47,7 @@ impl Display for Style {
 
 impl Style {
     pub fn data(&self) -> &str {
-        match *self {
+        match self {
             Style::BLUE => "\x1b[94m",
             Style::GREEN => "\x1b[92m",
             Style::YELLOW => "\x1b[93m",
