@@ -1,12 +1,13 @@
+use std::thread;
+use std::time::{Duration, Instant};
+
+use game::Game;
+
 #[macro_use]
 mod colors;
 mod ball;
 mod board;
 mod game;
-
-use game::Game;
-use std::thread;
-use std::time::{Duration, Instant};
 
 const FRAMES_PER_SECOND: u32 = 30;
 const SKIP_TICKS: u32 = 1000 / FRAMES_PER_SECOND;
@@ -27,6 +28,10 @@ fn main() {
         if sleep_time >= 0 {
             thread::sleep(Duration::from_millis(sleep_time as u64));
         }
-        println!("\x1b[{}A", game.board.size.1 + 2);
+        println!(
+            "{:2}\x1b[{}A",
+            frame_time.as_millis(),
+            game.board.size.1 + 2
+        );
     }
 }
