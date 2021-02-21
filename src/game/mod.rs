@@ -1,19 +1,30 @@
+use std::fmt::{self, Display, Formatter};
+
 use crate::ball::Ball;
 use crate::board::Board;
 use crate::colors::Style;
-use std::fmt::{self, Display, Formatter};
+pub use frame_buffer::FrameBuffer;
 
-#[derive(Debug)]
+mod frame_buffer;
+
 pub struct Game {
     pub board: Board,
     pub balls: Vec<Ball>,
+    frame_buffer: FrameBuffer,
+    frame_buffer_back: FrameBuffer,
 }
 
 impl Game {
     pub fn new(num_balls: usize) -> Game {
         let board = Board::new();
         let balls = (0..num_balls).map(|_| Ball::new(&board)).collect();
-        Game { board, balls }
+        let frame_buffer = FrameBuffer::new(board.size);
+        Game {
+            board,
+            balls,
+            frame_buffer: frame_buffer.clone(),
+            frame_buffer_back: frame_buffer,
+        }
     }
 
     pub fn process_input(&mut self) {}
@@ -25,9 +36,13 @@ impl Game {
     }
 
     pub fn render(&mut self) {
+        self.frame_buffer_back.clear();
+        self.board.draw_to(&mut self.frame_buffer_back);
         for b in self.balls.iter() {
             b.draw_to(&mut self.frame_buffer_back)
         }
+
+        std::mem::swap(&mut self.frame_buffer, &mut self.frame_buffer_back);
         print!("{}", self);
     }
 
@@ -54,13 +69,14 @@ impl Display for Game {
         border(f)?;
         for r in 0..self.board.size.1 {
             write!(f, "\n{}", style!(Style::RED, "|"))?;
-            for c in 0..self.board.size.0 {
-                if let Some(ball) = self.balls.iter().find(|b| b.actual_pos() == (c, r)) {
-                    write!(f, "{}", style!(ball.color, ball.repr))?
-                } else {
-                    write!(f, " ")?
-                }
-            }
+            self.frame_buffer.fmt_row(f, r)?;
+            // for c in 0..self.board.size.0 {
+            //     if let Some(ball) = self.balls.iter().find(|b| b.actual_pos() == (c, r)) {
+            //         write!(f, "{}", style!(ball.color, ball.repr))?
+            //     } else {
+            //         write!(f, " ")?
+            //     }
+            // }
             write!(f, "{}", style!(Style::RED, "|"))?
         }
         writeln!(f)?;
