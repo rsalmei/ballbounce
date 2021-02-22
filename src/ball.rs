@@ -1,6 +1,7 @@
 use crate::board::Board;
 use crate::colors::Style;
 use crate::game::FrameBuffer;
+use rand::rngs::ThreadRng;
 use rand::seq::IteratorRandom;
 use rand::Rng;
 use std::fmt::{Display, Formatter, Result};
@@ -18,11 +19,11 @@ impl Ball {
 
     pub fn new(board: &Board) -> Ball {
         let mut rng = rand::thread_rng();
-        let r = |i: usize| rand::random::<f32>() * i as f32; // WOW, I couldn't find a way to use `rng` here.
-        let v = || r(4) - 2.;
+        let r = |i: usize, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
+        let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
         Ball {
-            position: (r(board.size.0), r(board.size.1)),
-            velocity: (v(), v()),
+            position: (r(board.size.0, &mut rng), r(board.size.1, &mut rng)),
+            velocity: (v(&mut rng), v(&mut rng)),
             color: rng.gen(),
             repr: Ball::REPRS.chars().choose(&mut rng).unwrap(),
         }
