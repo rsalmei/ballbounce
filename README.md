@@ -1,6 +1,11 @@
 # ballbounce
 ### Terminal ball bouncing in Rust
 
+![GitHub top language](https://img.shields.io/github/languages/top/rsalmei/ballbounce)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/rsalmei/ballbounce?label=current)
+![learning](https://img.shields.io/badge/still%20learning-OH%20YES-red)
+![enjoying](https://img.shields.io/badge/enjoying-OH%20YES-green)
+
 I'm learning Rust, this is a small and fun project just to challenge myself.
 
 It works! This is the `v0.4.0`:
@@ -17,23 +22,23 @@ This was the first version.
 
 How I feel I can challenge myself even more (in order of complexity):
 
-- ~first version, with fixed integer position and velocity~ done in `v0.1.0`
+- ~first version, with fixed integer position and velocity~ ![done in v0.1.0](https://img.shields.io/badge/done%20in-v0.1.0-orange)
     - defined project structure, with data, main loop and animation steps;
     - implemented Display for Game.
-- ~random initial ball position and velocity~ done in `v0.2.0`
+- ~random initial ball position and velocity~ ![done in v0.2.0](https://img.shields.io/badge/done%20in-v0.2.0-orange)
     - include `rand` dependency;
     - this has introduced floating point positions and velocity, enabling much more freedom of movements.
-- ~several balls at the same time~ done in `v0.3.0`
+- ~several balls at the same time~ ![done in v0.3.0](https://img.shields.io/badge/done%20in-v0.3.0-orange)
     - this tests every cell for any ball in there, but Rust is FAST;
     - caches the ball positions in i32s, with only one allocation, to try to reduce impact of the above;
     - I've included a frame counter, to see if the terminal was actually refreshing (it was hard to find those balls! 😅).
-- ~random balls color and representation~ done in `v0.4.0`
+- ~random balls color and representation~ ![done in v0.4.0](https://img.shields.io/badge/done%20in-v0.4.0-orange)
     - introduces a cool new color system using a macro;
     - removed the ball positions cache, as I needed the actual balls with their positions;
         - switched for a method that does the cast on demand for each ball for each cell (have I said Rust is FAST?);
     - removed the frame counter;
     - known issue: when more than one ball is at the same cell, only the first found one is drawn.
-- ~implement a double buffering system for rendering the screen~ done in `v0.5.0`
+- ~implement a double buffering system for rendering the screen~ ![done in v0.5.0](https://img.shields.io/badge/done%20in-v0.5.0-orange)
     - refactored the whole project to split modules (which introduced nice visibility concerns);
     - implemented an actual game loop;
     - improved the `style!` macro with `format_args!`, enabling to style only parts of a text;
