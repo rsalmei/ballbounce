@@ -1,6 +1,7 @@
 use crate::colors::Style;
 use itertools::Itertools;
 use std::fmt::{self, Display, Formatter};
+use std::slice::Iter;
 
 #[derive(Clone, Debug)]
 pub struct FrameBuffer(Vec<FrameRow>);
@@ -25,6 +26,10 @@ impl FrameBuffer {
         *&mut self.0[pos.1].0[pos.0] = Some((style, repr));
     }
 
+    pub fn iter(&self) -> Iter<'_, FrameRow> {
+        self.0.iter()
+    }
+}
 
 impl Display for FrameRow {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {

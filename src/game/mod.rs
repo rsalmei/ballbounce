@@ -4,6 +4,7 @@ use crate::ball::Ball;
 use crate::board::Board;
 use crate::colors::Style;
 pub use frame_buffer::FrameBuffer;
+use itertools::Itertools;
 use std::fmt::{self, Display, Formatter};
 
 pub struct Game {
@@ -66,19 +67,18 @@ impl Display for Game {
         };
 
         border(f)?;
-        for r in 0..self.board.size.1 {
-            write!(f, "\n{}", style!(Style::RED, "|"))?;
-            self.frame_buffer.fmt_row(f, r)?;
-            // for c in 0..self.board.size.0 {
-            //     if let Some(ball) = self.balls.iter().find(|b| b.actual_pos() == (c, r)) {
-            //         write!(f, "{}", style!(ball.color, ball.repr))?
-            //     } else {
-            //         write!(f, " ")?
-            //     }
-            // }
-            write!(f, "{}", style!(Style::RED, "|"))?
-        }
-        writeln!(f)?;
+        write!(
+            f,
+            "\n{}\n",
+            self.frame_buffer.iter().format_with("\n", |row, f| {
+                f(&format_args!(
+                    "{}{}{}",
+                    style!(Style::RED, "|"),
+                    &row,
+                    style!(Style::RED, "|")
+                ))
+            })
+        )?;
         border(f)
     }
 }
