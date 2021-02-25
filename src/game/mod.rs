@@ -1,11 +1,10 @@
-use std::fmt::{self, Display, Formatter};
+mod frame_buffer;
 
 use crate::ball::Ball;
 use crate::board::Board;
 use crate::colors::Style;
 pub use frame_buffer::FrameBuffer;
-
-mod frame_buffer;
+use std::fmt::{self, Display, Formatter};
 
 pub struct Game {
     pub board: Board,
