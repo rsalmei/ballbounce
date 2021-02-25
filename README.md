@@ -21,6 +21,7 @@ How I feel I can challenge myself even more (in order of complexity):
     - defined project structure, with data, main loop and animation steps;
     - implemented Display for Game.
 - ~random initial ball position and velocity~ done in `v0.2.0`
+    - include `rand` dependency;
     - this has introduced floating point positions and velocity, enabling much more freedom of movements.
 - ~several balls at the same time~ done in `v0.3.0`
     - this tests every cell for any ball in there, but Rust is FAST;
@@ -43,6 +44,9 @@ How I feel I can challenge myself even more (in order of complexity):
     - included a small number in the lower right corner to show the frame time in millis;
     - Game has now two frame buffers, and swaps between them when a new frame is ready (before it took between 0 and 10 millis to render one frame, now it is nicely steady at 0, which means sub-millisecond 👏).
 - make the #1 ball always a red ◉, and remove duplications
+    - created a FrameRow abstraction;
+    - include `itertools` dependency;
+    - improved Display for FrameBuffer and implemented it for FrameRow, optimized with itertools;
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board
