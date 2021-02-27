@@ -32,7 +32,7 @@ How I feel I can challenge myself even more (in order of complexity):
         - switched for a method that does the cast on demand for each ball for each cell (have I said Rust is FAST?);
     - removed the frame counter;
     - known issue: when more than one ball is at the same cell, only the first found one is drawn.
-- implement an inversion of control in the drawing system: instead of the board testing balls, the balls draw themselves in the board
+- ~implement a double buffering system for rendering the screen~ done in `v0.5.0`
     - refactored the whole project to split modules (which introduced nice visibility concerns);
     - implemented an actual game loop;
     - improved the `style!` macro with `format_args!`, enabling to style only parts of a text;
@@ -40,6 +40,7 @@ How I feel I can challenge myself even more (in order of complexity):
     - implemented Display for Style, so blocks of text can be styled directly, without unnecessary replicated styles;
     - created a FrameBuffer system, which stores and renders game data without any allocations;
     - inverted the control in the drawing system: instead of the board testing balls, the balls draw themselves into the board;
+    - Game has two frame buffers, and swaps between them when a new frame is ready.
 - make the #1 ball always a red ◉, and remove duplications
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
