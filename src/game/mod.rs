@@ -17,7 +17,14 @@ pub struct Game {
 impl Game {
     pub fn new(num_balls: usize) -> Game {
         let board = Board::new();
-        let balls = (0..num_balls).map(|_| Ball::new(&board)).collect();
+
+        let mut balls = Vec::with_capacity(num_balls);
+        balls.push(
+            Ball::new()
+                .with_color(Style::RED)
+                .with_repr('◉')
+                .build(&board),
+        );
         let frame_buffer = FrameBuffer::new(board.size);
         Game {
             board,

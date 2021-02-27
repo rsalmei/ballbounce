@@ -53,6 +53,7 @@ How I feel I can challenge myself even more (in order of complexity):
     - include `itertools` dependency;
     - improved Display for FrameBuffer and implemented it for FrameRow, optimized with itertools;
     - implemented a build system for Ball, now we can choose some fields, which will not be random;
+    - create a red ball using the new build system;
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board
