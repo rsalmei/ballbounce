@@ -68,10 +68,11 @@ impl Game {
     }
 
     pub fn caption(&self) -> String {
+        let size = (self.balls.len() as f32).log10().ceil() as usize;
         self.balls
             .iter()
             .enumerate()
-            .map(|(i, b)| format!("{}: {}", i + 1, b))
+            .map(|(i, b)| format!("{1:0$}: {2}", size, i + 1, b))
             .collect::<Vec<_>>()
             .join("\n")
     }
