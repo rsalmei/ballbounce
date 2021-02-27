@@ -14,18 +14,44 @@ pub struct Ball {
     pub repr: char,
 }
 
+#[derive(Default)]
+pub struct BallBuilder {
+    color: Option<Style>,
+    repr: Option<char>,
+}
+
+impl BallBuilder {
+    pub fn with_color(&mut self, color: Style) -> &mut BallBuilder {
+        self.color = Some(color);
+        self
+    }
+
+    pub fn with_repr(&mut self, repr: char) -> &mut BallBuilder {
+        self.repr = Some(repr);
+        self
+    }
+
+    pub fn build(&self, board: &Board) -> Ball {
+        Ball::build(board, self.color, self.repr)
+    }
+}
+
 impl Ball {
     const REPRS: &'static str = "●◉❖▲✢✦★❤";
 
-    pub fn new(board: &Board) -> Ball {
+    pub fn new() -> BallBuilder {
+        BallBuilder::default()
+    }
+
+    fn build(board: &Board, color: Option<Style>, repr: Option<char>) -> Ball {
         let mut rng = rand::thread_rng();
         let r = |i: usize, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
         let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
         Ball {
             position: (r(board.size.0, &mut rng), r(board.size.1, &mut rng)),
             velocity: (v(&mut rng), v(&mut rng)),
-            color: rng.gen(),
-            repr: Ball::REPRS.chars().choose(&mut rng).unwrap(),
+            color: color.unwrap_or_else(|| rng.gen()),
+            repr: repr.unwrap_or_else(|| *Ball::REPRS.chars().choose(&mut rng).unwrap()),
         }
     }
 
