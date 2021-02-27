@@ -12,7 +12,7 @@ const FRAMES_PER_SECOND: u32 = 30;
 const SKIP_TICKS: u32 = 1000 / FRAMES_PER_SECOND;
 
 fn main() {
-    let mut game = Game::new(5);
+    let mut game = Game::new(20);
     println!("{}", game.caption());
 
     loop {

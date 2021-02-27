@@ -20,7 +20,7 @@ This was the first version.
 
 ---
 
-How I feel I can challenge myself even more (in order of complexity):
+Here's how I feel I can challenge myself even more, in order of complexity, followed by my actions when already done:
 
 - ~first version, with fixed integer position and velocity~ ![done in v0.1.0](https://img.shields.io/badge/done%20in-v0.1.0-orange)
     - defined project structure, with data, main loop and animation steps;
@@ -48,14 +48,14 @@ How I feel I can challenge myself even more (in order of complexity):
     - created a FrameBuffer system, which stores the game data already resolved cited above, and without any allocations;
     - included a small number in the lower right corner to show the frame time in millis;
     - Game has now two frame buffers, and swaps between them when a new frame is ready (before it took between 0 and 10 millis to render one frame, now it is nicely steady at 0, which means sub-millisecond 👏).
-- make the #1 ball always a red ◉, and remove duplications
+- ~make the #1 ball always a red ◉, and remove duplications~ ![done in v0.6.0](https://img.shields.io/badge/done%20in-v0.6.0-orange)
     - created a FrameRow abstraction;
     - include `itertools` dependency;
     - improved Display for FrameBuffer and implemented it for FrameRow, optimized with itertools;
     - implemented a build system for Ball, now we can choose some fields, which will not be random;
     - create a red ball using the new build system;
     - avoid duplications in the generated balls;
-    - protect against a potential infinite loop, trying to find a unique ball when all combinations has been exhausted;
+    - protect against a potential infinite loop, trying to find a unique ball when all combinations has been exhausted.
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board
