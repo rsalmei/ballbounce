@@ -15,9 +15,14 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(num_balls: usize) -> Game {
+    pub fn new(mut num_balls: usize) -> Game {
         let board = Board::new();
 
+        if num_balls == 0 {
+            num_balls = 1;
+        } else if num_balls > Ball::COMBINATIONS {
+            num_balls = Ball::COMBINATIONS;
+        }
         let mut balls = Vec::with_capacity(num_balls);
         balls.push(
             Ball::new()

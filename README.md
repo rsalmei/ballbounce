@@ -55,6 +55,7 @@ How I feel I can challenge myself even more (in order of complexity):
     - implemented a build system for Ball, now we can choose some fields, which will not be random;
     - create a red ball using the new build system;
     - avoid duplications in the generated balls;
+    - protect against a potential infinite loop, trying to find a unique ball when all combinations has been exhausted;
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board

@@ -2,7 +2,7 @@ use crate::board::Board;
 use crate::colors::Style;
 use crate::game::FrameBuffer;
 use rand::rngs::ThreadRng;
-use rand::seq::IteratorRandom;
+use rand::seq::SliceRandom;
 use rand::Rng;
 use std::fmt::{Display, Formatter, Result};
 
@@ -37,7 +37,8 @@ impl BallBuilder {
 }
 
 impl Ball {
-    const REPRS: &'static str = "●◉❖▲✢✦★❤";
+    const REPRS: [char; 8] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '❤'];
+    pub const COMBINATIONS: usize = Ball::REPRS.len() * Style::NUM_COLORS;
 
     pub fn new() -> BallBuilder {
         BallBuilder::default()
@@ -51,7 +52,7 @@ impl Ball {
             position: (r(board.size.0, &mut rng), r(board.size.1, &mut rng)),
             velocity: (v(&mut rng), v(&mut rng)),
             color: color.unwrap_or_else(|| rng.gen()),
-            repr: repr.unwrap_or_else(|| *Ball::REPRS.chars().choose(&mut rng).unwrap()),
+            repr: repr.unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
         }
     }
 

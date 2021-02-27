@@ -46,6 +46,8 @@ impl Display for Style {
 }
 
 impl Style {
+    pub const NUM_COLORS: usize = 7;
+
     pub fn data(&self) -> &str {
         match self {
             Style::BLUE => "\x1b[94m",
@@ -66,7 +68,7 @@ impl Style {
 
 impl Distribution<Style> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Style {
-        match rng.gen_range(0..7) {
+        match rng.gen_range(0..Style::NUM_COLORS) {
             0 => Style::BLUE,
             1 => Style::GREEN,
             2 => Style::YELLOW,
