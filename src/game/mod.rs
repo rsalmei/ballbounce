@@ -25,6 +25,15 @@ impl Game {
                 .with_repr('◉')
                 .build(&board),
         );
+        while balls.len() < num_balls {
+            balls.push(loop {
+                let candidate = Ball::new().build(&board);
+                if balls.iter().all(|b| &candidate != b) {
+                    break candidate;
+                }
+            });
+        }
+
         let frame_buffer = FrameBuffer::new(board.size);
         Game {
             board,

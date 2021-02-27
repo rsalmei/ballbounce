@@ -86,3 +86,9 @@ impl Display for Ball {
         write!(f, "{}{:?}", style!(Style::DIM, "\tvelocity"), self.velocity)
     }
 }
+
+impl PartialEq for Ball {
+    fn eq(&self, other: &Self) -> bool {
+        self.color == other.color && self.repr == other.repr
+    }
+}
