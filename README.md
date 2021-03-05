@@ -56,11 +56,13 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - create a red ball using the new build system;
     - avoid duplications in the generated balls;
     - protect against a potential infinite loop, trying to find a unique ball when all combinations has been exhausted.
+- make the Game Engine generic, abstracting drawable components
+    - remove caption (in preparation to an actual game);
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board
 - make the balls leave a trail
-- include CLI arguments (clap or structopt) for board size, initial number of balls and fps
+- include CLI arguments (clap or structopt) for board size, initial number of balls and fps target
 - implement trail behaviors, like decaying and following (snake!)
 - implement collision behaviors, like destroy and explode (more balls are generated)
 - implement movement behaviors, like acceleration, parabola and even wander

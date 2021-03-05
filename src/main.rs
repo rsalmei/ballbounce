@@ -13,8 +13,6 @@ const SKIP_TICKS: u32 = 1000 / FRAMES_PER_SECOND;
 
 fn main() {
     let mut game = Game::new(20);
-    println!("{}", game.caption());
-
     loop {
         let start = Instant::now();
         // main game loop.

@@ -66,16 +66,6 @@ impl Game {
         std::mem::swap(&mut self.frame_buffer, &mut self.frame_buffer_back);
         print!("{}", self);
     }
-
-    pub fn caption(&self) -> String {
-        let size = (self.balls.len() as f32).log10().ceil() as usize;
-        self.balls
-            .iter()
-            .enumerate()
-            .map(|(i, b)| format!("{1:0$}: {2}", size, i + 1, b))
-            .collect::<Vec<_>>()
-            .join("\n")
-    }
 }
 
 impl Display for Game {
