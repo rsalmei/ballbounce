@@ -37,7 +37,7 @@ impl BallBuilder {
 }
 
 impl Ball {
-    const REPRS: [char; 8] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '❤'];
+    const REPRS: [char; 12] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '☻', '❤', '♠', '♣', '♦'];
     pub const COMBINATIONS: usize = Ball::REPRS.len() * Style::NUM_COLORS;
 
     pub fn new() -> BallBuilder {
