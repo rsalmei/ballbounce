@@ -1,4 +1,5 @@
 use crate::colors::Style;
+use crate::utils::{Point, Size};
 use itertools::Itertools;
 use std::fmt::{self, Display, Formatter};
 use std::slice::Iter;
@@ -10,7 +11,7 @@ pub struct FrameBuffer(Vec<FrameRow>);
 pub struct FrameRow(Vec<Option<(Style, char)>>);
 
 impl FrameBuffer {
-    pub(super) fn new(size: (usize, usize)) -> FrameBuffer {
+    pub(super) fn new(size: &Size) -> FrameBuffer {
         FrameBuffer((0..size.1).map(|_| FrameRow(vec![None; size.0])).collect())
     }
 
@@ -22,7 +23,7 @@ impl FrameBuffer {
         }
     }
 
-    pub fn draw(&mut self, pos: (usize, usize), style: Style, repr: char) {
+    pub fn draw(&mut self, pos: Point<usize>, style: Style, repr: char) {
         *&mut self.0[pos.1].0[pos.0] = Some((style, repr));
     }
 

@@ -1,6 +1,7 @@
 use crate::board::Board;
 use crate::colors::Style;
 use crate::game::FrameBuffer;
+use crate::utils::{Point, Velocity};
 use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;
 use rand::Rng;
@@ -8,8 +9,8 @@ use std::fmt::{Display, Formatter, Result};
 
 #[derive(Debug)]
 pub struct Ball {
-    position: (f32, f32),
-    velocity: (f32, f32),
+    position: Point<f32>,
+    velocity: Velocity,
     pub color: Style,
     pub repr: char,
 }
@@ -49,15 +50,15 @@ impl Ball {
         let r = |i: usize, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
         let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
         Ball {
-            position: (r(board.size.0, &mut rng), r(board.size.1, &mut rng)),
-            velocity: (v(&mut rng), v(&mut rng)),
+            position: Point(r(board.size.0, &mut rng), r(board.size.1, &mut rng)),
+            velocity: Velocity(v(&mut rng), v(&mut rng)),
             color: color.unwrap_or_else(|| rng.gen()),
             repr: repr.unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
         }
     }
 
     pub fn update(&mut self, board: &Board) {
-        self.position = (
+        self.position = Point(
             self.position.0 + self.velocity.0,
             self.position.1 + self.velocity.1,
         );
@@ -71,12 +72,8 @@ impl Ball {
         }
     }
 
-    pub fn actual_pos(&self) -> (usize, usize) {
-        (self.position.0 as usize, self.position.1 as usize)
-    }
-
     pub fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
-        frame_buffer.draw(self.actual_pos(), self.color, self.repr);
+        frame_buffer.draw(self.position.truncate(), self.color, self.repr);
     }
 }
 

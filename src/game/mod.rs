@@ -35,7 +35,7 @@ impl Game {
             });
         }
 
-        let frame_buffer = FrameBuffer::new(board.size);
+        let frame_buffer = FrameBuffer::new(&board.size);
         Game {
             board,
             balls,

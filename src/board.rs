@@ -1,13 +1,14 @@
 use crate::game::FrameBuffer;
+use crate::utils::Size;
 
 #[derive(Debug)]
 pub struct Board {
-    pub size: (usize, usize),
+    pub size: Size,
 }
 
 impl Board {
     pub fn new() -> Board {
-        let size = (100, 30);
+        let size = Size(100, 30);
         Board { size }
     }
 

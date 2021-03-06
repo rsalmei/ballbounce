@@ -3,6 +3,7 @@ mod colors;
 mod ball;
 mod board;
 mod game;
+mod utils;
 
 use game::Game;
 use std::thread;
