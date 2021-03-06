@@ -24,7 +24,7 @@ impl FrameBuffer {
     }
 
     pub fn draw(&mut self, pos: Point<usize>, style: Style, repr: char) {
-        *&mut self.0[pos.1].0[pos.0] = Some((style, repr));
+        self.0[pos.1].0[pos.0] = Some((style, repr));
     }
 
     pub fn iter(&self) -> Iter<'_, FrameRow> {
