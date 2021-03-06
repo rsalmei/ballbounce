@@ -7,7 +7,7 @@ pub struct Board {
 
 impl Board {
     pub fn new() -> Board {
-        let size = (81, 20);
+        let size = (100, 30);
         Board { size }
     }
 
