@@ -18,17 +18,23 @@ fn main() {
         let start = Instant::now();
         // main game loop.
         game.process_input();
+        let input_instant = Instant::now();
         game.update();
+        let update_instant = Instant::now();
         game.render();
-        let frame_time = start.elapsed(); // TODO how to sample the average `frame_time` per second?
+        let render_instant = Instant::now();
+        let frame_time = (render_instant - start).as_millis(); // TODO how to sample the average `frame_time` per second?
 
-        let sleep_time = SKIP_TICKS - frame_time.as_millis() as i64;
+        let sleep_time = SKIP_TICKS - frame_time as i64;
         if sleep_time >= 0 {
             thread::sleep(Duration::from_millis(sleep_time as u64));
         }
         println!(
-            "{:2}\x1b[{}A",
-            frame_time.as_millis(),
+            "{:2} ({:2} {:2} {:2})\x1b[{}A",
+            frame_time,
+            (input_instant - start).as_millis(),
+            (update_instant - input_instant).as_millis(),
+            (render_instant - update_instant).as_millis(),
             game.board.size.1 + 2
         );
     }
