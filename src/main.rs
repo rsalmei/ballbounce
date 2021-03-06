@@ -10,7 +10,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 const FRAMES_PER_SECOND: u32 = 30;
-const SKIP_TICKS: u32 = 1000 / FRAMES_PER_SECOND;
+const SKIP_TICKS: i64 = 1000 / FRAMES_PER_SECOND as i64;
 
 fn main() {
     let mut game = Game::new(20);
@@ -22,7 +22,7 @@ fn main() {
         game.render();
         let frame_time = start.elapsed(); // TODO how to sample the average `frame_time` per second?
 
-        let sleep_time = SKIP_TICKS as i64 - frame_time.as_millis() as i64;
+        let sleep_time = SKIP_TICKS - frame_time.as_millis() as i64;
         if sleep_time >= 0 {
             thread::sleep(Duration::from_millis(sleep_time as u64));
         }
