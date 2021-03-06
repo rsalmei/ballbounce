@@ -56,8 +56,10 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - create a red ball using the new build system;
     - avoid duplications in the generated balls;
     - protect against a potential infinite loop, trying to find a unique ball when all combinations has been exhausted.
-- make the Game Engine generic, abstracting drawable components
-    - remove caption (in preparation to an actual game);
+- make the border an actual part of the board, allowing to change it (if there's no border, I could wrap around)
+    - remove caption (in preparation for an actual game);
+    - implement better types for point, velocity and size;
+- walls and other obstacles inside the board
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
 - command to reset colors and formats, maintaining the board
@@ -66,7 +68,6 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
 - implement trail behaviors, like decaying and following (snake!)
 - implement collision behaviors, like destroy and explode (more balls are generated)
 - implement movement behaviors, like acceleration, parabola and even wander
-- walls and other obstacles inside the board
 - maybe at this point it could even turn into a game! a breakout or pong or snake or asteroid of some sort
 - make the balls collide with each other
 - balls of different shapes (n x m chars)
