@@ -30,7 +30,7 @@ fn main() {
             thread::sleep(Duration::from_millis(sleep_time as u64));
         }
         println!(
-            "{:2} ({:2} {:2} {:2})\x1b[{}A",
+            "{:2} ({:2} {:2} {:2})\x1b[K\x1b[{}A",
             frame_time,
             (input_instant - start).as_millis(),
             (update_instant - input_instant).as_millis(),
