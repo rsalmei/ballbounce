@@ -8,12 +8,13 @@ mod utils;
 use game::Game;
 use std::thread;
 use std::time::{Duration, Instant};
+use utils::Size;
 
 const FRAMES_PER_SECOND: u32 = 30;
 const SKIP_TICKS: i64 = 1000 / FRAMES_PER_SECOND as i64;
 
 fn main() {
-    let mut game = Game::new(20);
+    let mut game = Game::new(Size(100, 30), 20);
     loop {
         let start = Instant::now();
         // main game loop.

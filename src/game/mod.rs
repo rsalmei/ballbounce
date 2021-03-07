@@ -3,6 +3,7 @@ mod frame_buffer;
 use crate::ball::Ball;
 use crate::board::Board;
 use crate::colors::Style;
+use crate::utils::Size;
 pub use frame_buffer::FrameBuffer;
 use itertools::Itertools;
 use std::fmt::{self, Display, Formatter};
@@ -15,8 +16,8 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(mut num_balls: usize) -> Game {
-        let board = Board::new();
+    pub fn new(size: Size, mut num_balls: usize) -> Game {
+        let board = Board::new(size);
 
         num_balls = num_balls.max(1).min(Ball::COMBINATIONS);
         let mut balls = Vec::with_capacity(num_balls);
