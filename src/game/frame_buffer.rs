@@ -2,37 +2,40 @@ use crate::colors::Style;
 use crate::utils::{Point, Size};
 use itertools::Itertools;
 use std::fmt::{self, Display, Formatter};
-use std::slice::Iter;
 
 #[derive(Clone, Debug)]
-pub struct FrameBuffer(Vec<FrameRow>);
+pub struct FrameBuffer {
+    cols: usize,
+    data: Vec<Option<(Style, char)>>,
+}
 
 #[derive(Clone, Debug)]
-pub struct FrameRow(Vec<Option<(Style, char)>>);
+pub struct FrameRow<'a>(&'a [Option<(Style, char)>]);
 
 impl FrameBuffer {
     pub(super) fn new(size: &Size) -> FrameBuffer {
-        FrameBuffer((0..size.1).map(|_| FrameRow(vec![None; size.0])).collect())
+        FrameBuffer {
+            cols: size.0,
+            data: vec![None; size.0 * size.1],
+        }
     }
 
     pub(super) fn clear(&mut self) {
-        for r in &mut self.0 {
-            for c in &mut r.0 {
-                *c = None;
-            }
+        for c in &mut self.data {
+            *c = None;
         }
     }
 
     pub fn draw(&mut self, pos: Point<usize>, style: Style, repr: char) {
-        self.0[pos.1].0[pos.0] = Some((style, repr));
+        self.data[pos.1 * self.cols + pos.0] = Some((style, repr));
     }
 
-    pub fn iter(&self) -> Iter<'_, FrameRow> {
-        self.0.iter()
+    pub fn iter(&self) -> impl Iterator<Item = FrameRow> + '_ {
+        self.data.chunks(self.cols).map(|row| FrameRow(row))
     }
 }
 
-impl Display for FrameRow {
+impl<'a> Display for FrameRow<'a> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(
             f,
