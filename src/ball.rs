@@ -22,6 +22,10 @@ pub struct BallBuilder {
 }
 
 impl BallBuilder {
+    pub fn new() -> BallBuilder {
+        BallBuilder::default()
+    }
+
     pub fn with_color(&mut self, color: Style) -> &mut BallBuilder {
         self.color = Some(color);
         self
@@ -40,10 +44,6 @@ impl BallBuilder {
 impl Ball {
     const REPRS: [char; 12] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '☻', '❤', '♠', '♣', '♦'];
     pub const COMBINATIONS: usize = Ball::REPRS.len() * Style::NUM_COLORS;
-
-    pub fn new() -> BallBuilder {
-        BallBuilder::default()
-    }
 
     fn build(board: &Board, color: Option<Style>, repr: Option<char>) -> Ball {
         let mut rng = rand::thread_rng();

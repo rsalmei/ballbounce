@@ -1,6 +1,6 @@
 mod frame_buffer;
 
-use crate::ball::Ball;
+use crate::ball::{Ball, BallBuilder};
 use crate::board::Board;
 use crate::colors::Style;
 use crate::utils::Size;
@@ -22,14 +22,14 @@ impl Game {
         num_balls = num_balls.max(1).min(Ball::COMBINATIONS);
         let mut balls = Vec::with_capacity(num_balls);
         balls.push(
-            Ball::new()
+            BallBuilder::new()
                 .with_color(Style::RED)
                 .with_repr('◉')
                 .build(&board),
         );
         while balls.len() < num_balls {
             balls.push(loop {
-                let candidate = Ball::new().build(&board);
+                let candidate = BallBuilder::new().build(&board);
                 if balls.iter().all(|b| &candidate != b) {
                     break candidate;
                 }
