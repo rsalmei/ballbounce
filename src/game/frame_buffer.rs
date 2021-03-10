@@ -27,7 +27,7 @@ impl FrameBuffer {
     }
 
     pub fn draw(&mut self, pos: Point<usize>, style: Style, repr: char) {
-        self.data[pos.1 * self.cols + pos.0] = Some((style, repr));
+        self.data[pos.y * self.cols + pos.x] = Some((style, repr));
     }
 
     pub fn iter(&self) -> impl Iterator<Item = FrameRow> + '_ {

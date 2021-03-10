@@ -50,7 +50,10 @@ impl Ball {
         let r = |i: usize, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
         let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
         Ball {
-            position: Point(r(board.size.0, &mut rng), r(board.size.1, &mut rng)),
+            position: Point {
+                x: r(board.size.0, &mut rng),
+                y: r(board.size.1, &mut rng),
+            },
             velocity: Velocity(v(&mut rng), v(&mut rng)),
             color: color.unwrap_or_else(|| rng.gen()),
             repr: repr.unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
@@ -58,17 +61,17 @@ impl Ball {
     }
 
     pub fn update(&mut self, board: &Board) {
-        self.position = Point(
-            self.position.0 + self.velocity.0,
-            self.position.1 + self.velocity.1,
-        );
-        if self.position.0 < 0. || self.position.0 >= board.size.0 as f32 {
+        self.position = Point {
+            x: self.position.x + self.velocity.0,
+            y: self.position.y + self.velocity.1,
+        };
+        if self.position.x < 0. || self.position.x >= board.size.0 as f32 {
             self.velocity.0 = -self.velocity.0;
-            self.position.0 += self.velocity.0
+            self.position.x += self.velocity.0
         }
-        if self.position.1 < 0. || self.position.1 >= board.size.1 as f32 {
+        if self.position.y < 0. || self.position.y >= board.size.1 as f32 {
             self.velocity.1 = -self.velocity.1;
-            self.position.1 += self.velocity.1
+            self.position.y += self.velocity.1
         }
     }
 
