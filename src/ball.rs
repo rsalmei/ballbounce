@@ -54,7 +54,10 @@ impl Ball {
                 x: r(board.size.0, &mut rng),
                 y: r(board.size.1, &mut rng),
             },
-            velocity: Velocity(v(&mut rng), v(&mut rng)),
+            velocity: Velocity {
+                vx: v(&mut rng),
+                vy: v(&mut rng),
+            },
             color: color.unwrap_or_else(|| rng.gen()),
             repr: repr.unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
         }
@@ -62,16 +65,16 @@ impl Ball {
 
     pub fn update(&mut self, board: &Board) {
         self.position = Point {
-            x: self.position.x + self.velocity.0,
-            y: self.position.y + self.velocity.1,
+            x: self.position.x + self.velocity.vx,
+            y: self.position.y + self.velocity.vy,
         };
         if self.position.x < 0. || self.position.x >= board.size.0 as f32 {
-            self.velocity.0 = -self.velocity.0;
-            self.position.x += self.velocity.0
+            self.velocity.vx = -self.velocity.vx;
+            self.position.x += self.velocity.vx
         }
         if self.position.y < 0. || self.position.y >= board.size.1 as f32 {
-            self.velocity.1 = -self.velocity.1;
-            self.position.y += self.velocity.1
+            self.velocity.vy = -self.velocity.vy;
+            self.position.y += self.velocity.vy
         }
     }
 

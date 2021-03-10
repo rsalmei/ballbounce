@@ -2,7 +2,10 @@
 pub struct Size(pub usize, pub usize);
 
 #[derive(Debug)]
-pub struct Velocity(pub f32, pub f32);
+pub struct Velocity {
+    pub vx: f32,
+    pub vy: f32,
+}
 
 #[derive(Debug)]
 pub struct Point<T> {
