@@ -61,6 +61,7 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - implement better types for point, velocity and size;
     - measure all three main game loop blocks: input, update and render;
     - flatten frame buffer data;
+    - changed Point, Velocity and Size to named fields;
 - walls and other obstacles inside the board
 - detect overlaps and paint differently
 - commands to dynamically insert and remove balls
