@@ -14,7 +14,7 @@ const FRAMES_PER_SECOND: u32 = 30;
 const SKIP_TICKS: i64 = 1000 / FRAMES_PER_SECOND as i64;
 
 fn main() {
-    let mut game = Game::new(Size(100, 30), 20);
+    let mut game = Game::new(Size { w: 100, h: 30 }, 20);
     loop {
         let start = Instant::now();
         // main game loop.
@@ -36,7 +36,7 @@ fn main() {
             (input_instant - start).as_millis(),
             (update_instant - input_instant).as_millis(),
             (render_instant - update_instant).as_millis(),
-            game.board.size.1 + 2
+            game.board.size.h + 2
         );
     }
 }

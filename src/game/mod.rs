@@ -69,7 +69,7 @@ impl Display for Game {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let border = |f: &mut Formatter<'_>| {
             write!(f, "{}+", Style::RED)?;
-            for _ in 0..self.board.size.0 {
+            for _ in 0..self.board.size.w {
                 write!(f, "-")?;
             }
             write!(f, "+{}", Style::RESET)

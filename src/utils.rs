@@ -1,5 +1,8 @@
 #[derive(Debug)]
-pub struct Size(pub usize, pub usize);
+pub struct Size {
+    pub w: usize,
+    pub h: usize,
+}
 
 #[derive(Debug)]
 pub struct Velocity {

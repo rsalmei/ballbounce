@@ -51,8 +51,8 @@ impl Ball {
         let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
         Ball {
             position: Point {
-                x: r(board.size.0, &mut rng),
-                y: r(board.size.1, &mut rng),
+                x: r(board.size.w, &mut rng),
+                y: r(board.size.h, &mut rng),
             },
             velocity: Velocity {
                 vx: v(&mut rng),
@@ -68,11 +68,11 @@ impl Ball {
             x: self.position.x + self.velocity.vx,
             y: self.position.y + self.velocity.vy,
         };
-        if self.position.x < 0. || self.position.x >= board.size.0 as f32 {
+        if self.position.x < 0. || self.position.x >= board.size.w as f32 {
             self.velocity.vx = -self.velocity.vx;
             self.position.x += self.velocity.vx
         }
-        if self.position.y < 0. || self.position.y >= board.size.1 as f32 {
+        if self.position.y < 0. || self.position.y >= board.size.h as f32 {
             self.velocity.vy = -self.velocity.vy;
             self.position.y += self.velocity.vy
         }

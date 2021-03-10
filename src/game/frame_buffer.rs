@@ -15,8 +15,8 @@ pub struct FrameRow<'a>(&'a [Option<(Style, char)>]);
 impl FrameBuffer {
     pub(super) fn new(size: &Size) -> FrameBuffer {
         FrameBuffer {
-            cols: size.0,
-            data: vec![None; size.0 * size.1],
+            cols: size.w,
+            data: vec![None; size.w * size.h],
         }
     }
 
