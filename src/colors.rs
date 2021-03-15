@@ -21,7 +21,7 @@ macro_rules! style {
 // }
 
 #[allow(dead_code)]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub enum Style {
     // colors.
     BLUE,

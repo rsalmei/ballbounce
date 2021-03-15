@@ -1,7 +1,7 @@
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Size {
-    pub w: usize,
-    pub h: usize,
+    pub w: u16,
+    pub h: u16,
 }
 
 #[derive(Debug)]
@@ -10,17 +10,19 @@ pub struct Velocity {
     pub vy: f32,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq, Hash, Ord, PartialOrd)]
 pub struct Point<T> {
-    pub x: T,
     pub y: T,
+    pub x: T,
 }
 
 impl Point<f32> {
-    pub fn truncate(&self) -> Point<usize> {
+    pub fn truncate(&self) -> Point<u16> {
         Point {
-            x: self.x as usize,
-            y: self.y as usize,
+            x: self.x as u16,
+            y: self.y as u16,
         }
     }
 }
+
+impl<T: Eq> Eq for Point<T> {}
