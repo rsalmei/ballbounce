@@ -64,6 +64,7 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - changed Point, Velocity and Size to named fields;
     - better write! error handling;
     - use termion, to leverage raw mode and input keys without echoing on screen, handling input on a separate thread;
+    - improve game loop, with target frames per second as floats;
 - make the border an actual part of the board, allowing to change it (if there's no border, I could wrap around)
 - walls and other obstacles inside the board
 - detect overlaps and paint differently

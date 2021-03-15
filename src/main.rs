@@ -17,8 +17,9 @@ use termion::raw::IntoRawMode;
 use termion::{clear, terminal_size};
 use utils::Size;
 
-const FRAMES_PER_SECOND: u32 = 30;
-const SKIP_TICKS: i64 = 1000 / FRAMES_PER_SECOND as i64;
+const FRAMES_PER_SECOND: f32 = 30.;
+const SKIP_TICKS: i64 = (1000. / FRAMES_PER_SECOND) as i64;
+
 fn main() -> io::Result<()> {
     let (tx, rx) = mpsc::channel();
     thread::spawn(move || {
@@ -40,9 +41,8 @@ fn main() -> io::Result<()> {
     );
 
     loop {
-        let start = Instant::now();
         // main game loop.
-        let input_instant = Instant::now();
+        let start = Instant::now();
         match rx.try_recv() {
             Ok(Key::Ctrl('c')) | Ok(Key::Char('q')) | Err(TryRecvError::Disconnected) => {
                 break;
@@ -50,11 +50,12 @@ fn main() -> io::Result<()> {
             Ok(k) => game.process_input(k),
             Err(TryRecvError::Empty) => {}
         }
+        let input_end = Instant::now();
         game.update();
-        let update_instant = Instant::now();
         game.render();
-        let render_instant = Instant::now();
-        let frame_time = (render_instant - start).as_millis(); // TODO how to sample the average `frame_time` per second?
+        let update_end = Instant::now();
+        let render_end = Instant::now();
+        let frame_time = (render_end - start).as_millis(); // TODO how to sample the average `frame_time` per second?
 
         write!(
             stdout,
