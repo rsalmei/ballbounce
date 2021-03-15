@@ -1,51 +1,66 @@
 use crate::colors::Style;
-use crate::utils::{Point, Size};
-use itertools::Itertools;
-use std::fmt::{self, Display, Formatter};
+use crate::utils::Point;
+use std::collections::{HashMap, HashSet};
+use std::io::{self, Write};
+use std::mem;
+use termion::cursor::Goto;
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct FrameBuffer {
-    cols: usize,
-    data: Vec<Option<(Style, char)>>,
+    data: HashMap<Point<u16>, (Style, char)>,
+    data_back: HashMap<Point<u16>, (Style, char)>,
 }
-
-#[derive(Clone, Debug)]
-pub struct FrameRow<'a>(&'a [Option<(Style, char)>]);
 
 impl FrameBuffer {
-    pub(super) fn new(size: &Size) -> FrameBuffer {
+    pub(super) fn new(capacity: u16) -> FrameBuffer {
+        let capacity = capacity as usize;
         FrameBuffer {
-            cols: size.w,
-            data: vec![None; size.w * size.h],
+            data: HashMap::with_capacity(capacity),
+            data_back: HashMap::with_capacity(capacity),
         }
     }
 
-    pub(super) fn clear(&mut self) {
-        for c in &mut self.data {
-            *c = None;
-        }
+    pub fn draw(&mut self, pos: Point<u16>, style: Style, repr: char) {
+        self.data_back.insert(pos, (style, repr));
     }
 
-    pub fn draw(&mut self, pos: Point<usize>, style: Style, repr: char) {
-        self.data[pos.y * self.cols + pos.x] = Some((style, repr));
-    }
+    pub(super) fn render_to(&mut self, stdout: &mut impl Write) -> io::Result<()> {
+        mem::swap(&mut self.data, &mut self.data_back);
 
-    pub fn iter(&self) -> impl Iterator<Item = FrameRow> + '_ {
-        self.data.chunks(self.cols).map(|row| FrameRow(row))
+        let old = self.data_back.keys().collect::<HashSet<_>>();
+        let new = self.data.keys().collect::<HashSet<_>>();
+        display_clear(stdout, old.difference(&new))?;
+
+        let old = self.data_back.iter().collect::<HashSet<_>>();
+        let new = self.data.iter().collect::<HashSet<_>>();
+        display_buffer(stdout, new.difference(&old))?;
+
+        self.data_back.clear();
+        stdout.flush()
     }
 }
 
-impl<'a> Display for FrameRow<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "{}",
-            self.0.iter().format_with("", |p, f| {
-                match p {
-                    None => f(&" "),
-                    Some((s, c)) => f(&style!(s, c)),
-                }
-            })
-        )
+fn display_clear<'a>(
+    stdout: &mut impl Write,
+    data: impl Iterator<Item = &'a &'a Point<u16>>,
+) -> io::Result<()> {
+    for point in data {
+        write!(stdout, "{} ", Goto(point.x + 1, point.y + 1))?
     }
+    Ok(())
+}
+
+fn display_buffer<'a>(
+    stdout: &mut impl Write,
+    data: impl Iterator<Item = &'a (&'a Point<u16>, &'a (Style, char))>,
+) -> io::Result<()> {
+    for (point, (style, repr)) in data {
+        write!(
+            stdout,
+            "{}{}",
+            Goto(point.x + 1, point.y + 1),
+            style!(style, repr)
+        )?
+    }
+    Ok(())
 }
