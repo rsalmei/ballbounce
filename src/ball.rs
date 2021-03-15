@@ -1,6 +1,5 @@
-use crate::board::Board;
 use crate::colors::Style;
-use crate::game::FrameBuffer;
+use crate::game::{Component, FrameBuffer, World};
 use crate::utils::{Point, Velocity};
 use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;
@@ -36,8 +35,8 @@ impl BallBuilder {
         self
     }
 
-    pub fn build(&self, board: &Board) -> Ball {
-        Ball::build(board, self.color, self.repr)
+    pub fn build(&self, world: &World) -> Ball {
+        Ball::new(self.color, self.repr, world)
     }
 }
 
@@ -45,14 +44,14 @@ impl Ball {
     const REPRS: [char; 12] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '☻', '❤', '♠', '♣', '♦'];
     pub const COMBINATIONS: usize = Ball::REPRS.len() * Style::NUM_COLORS;
 
-    fn build(board: &Board, color: Option<Style>, repr: Option<char>) -> Ball {
+    fn new(color: Option<Style>, repr: Option<char>, world: &World) -> Ball {
         let mut rng = rand::thread_rng();
-        let r = |i: usize, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
+        let r = |i: u16, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
         let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
         Ball {
             position: Point {
-                x: r(board.size.w, &mut rng),
-                y: r(board.size.h, &mut rng),
+                x: r(world.size.w, &mut rng),
+                y: r(world.size.h, &mut rng),
             },
             velocity: Velocity {
                 vx: v(&mut rng),
@@ -62,28 +61,35 @@ impl Ball {
             repr: repr.unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
         }
     }
+}
 
-    pub fn update(&mut self, board: &Board) {
+impl Component for Ball {
+    fn update(&mut self, world: &World) {
         self.position = Point {
             x: self.position.x + self.velocity.vx,
             y: self.position.y + self.velocity.vy,
         };
-        if self.position.x < 0. || self.position.x >= board.size.w as f32 {
+        if self.position.x < 0. || self.position.x >= world.size.w as f32 {
             self.velocity.vx = -self.velocity.vx;
             self.position.x += self.velocity.vx
         }
-        if self.position.y < 0. || self.position.y >= board.size.h as f32 {
+        if self.position.y < 0. || self.position.y >= world.size.h as f32 {
             self.velocity.vy = -self.velocity.vy;
             self.position.y += self.velocity.vy
         }
     }
 
-    pub fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
+    fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
         frame_buffer.draw(self.position.truncate(), self.color, self.repr);
+    }
+
+    fn size_hint(&self) -> u16 {
+        1
     }
 }
 
 impl Display for Ball {
+    // unused for now.
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{}", style!(self.color, self.repr))?;
         write!(f, "{}{:?}", style!(Style::DIM, "\tposition"), self.position)?;
