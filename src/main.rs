@@ -7,9 +7,12 @@ mod utils;
 
 use game::Game;
 use std::io::{self, stdin, stdout, Write};
+use std::sync::mpsc::{self, TryRecvError};
 use std::thread;
 use std::time::{Duration, Instant};
 use termion::cursor::Goto;
+use termion::event::Key;
+use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 use termion::{clear, terminal_size};
 use utils::Size;
@@ -17,6 +20,13 @@ use utils::Size;
 const FRAMES_PER_SECOND: u32 = 30;
 const SKIP_TICKS: i64 = 1000 / FRAMES_PER_SECOND as i64;
 fn main() -> io::Result<()> {
+    let (tx, rx) = mpsc::channel();
+    thread::spawn(move || {
+        for c in stdin().keys() {
+            tx.send(c.unwrap()).unwrap();
+        }
+    });
+
     let mut stdout = stdout().into_raw_mode().unwrap();
     write!(stdout, "{}", clear::All)?;
 
@@ -32,8 +42,14 @@ fn main() -> io::Result<()> {
     loop {
         let start = Instant::now();
         // main game loop.
-        game.process_input();
         let input_instant = Instant::now();
+        match rx.try_recv() {
+            Ok(Key::Ctrl('c')) | Ok(Key::Char('q')) | Err(TryRecvError::Disconnected) => {
+                break;
+            }
+            Ok(k) => game.process_input(k),
+            Err(TryRecvError::Empty) => {}
+        }
         game.update();
         let update_instant = Instant::now();
         game.render();
