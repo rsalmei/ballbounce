@@ -52,20 +52,21 @@ fn main() -> io::Result<()> {
         }
         let input_end = Instant::now();
         game.update();
-        game.render();
         let update_end = Instant::now();
+        game.render(&mut stdout)?;
         let render_end = Instant::now();
         let frame_time = (render_end - start).as_millis(); // TODO how to sample the average `frame_time` per second?
 
         write!(
             stdout,
-            "{}balls: {}  frame_time: {:2} ({:2} {:2} {:2})",
+            "{}balls: {}  frame_time: {:2} ({:2} {:2} {:2}){}",
             Goto(1, size.h),
-            game.balls.len(),
+            game.num_balls(),
             frame_time,
             (input_end - start).as_millis(),
             (update_end - input_end).as_millis(),
             (render_end - update_end).as_millis(),
+            clear::UntilNewline
         )?;
         stdout.flush()?;
 
