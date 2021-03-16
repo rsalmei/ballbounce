@@ -56,7 +56,7 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - create a red ball using the new build system;
     - avoid duplications in the generated balls;
     - protect against a potential infinite loop, trying to find a unique ball when all combinations has been exhausted.
-- implement a multi-threaded, async render engine, using stdout in raw mode
+- ~implement a multi-threaded, async render engine, using stdout in raw mode~ ![done in v0.7.0](https://img.shields.io/badge/done%20in-v0.7.0-orange)
     - remove caption (in preparation for an actual game);
     - implement better types for point, velocity and size;
     - measure all three main game loop blocks: input, update and render;
