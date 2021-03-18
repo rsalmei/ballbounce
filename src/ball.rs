@@ -16,6 +16,8 @@ pub struct Ball {
 
 #[derive(Default)]
 pub struct BallBuilder {
+    position: Option<Point<f32>>,
+    velocity: Option<Velocity>,
     color: Option<Style>,
     repr: Option<char>,
 }
@@ -23,6 +25,16 @@ pub struct BallBuilder {
 impl BallBuilder {
     pub fn new() -> BallBuilder {
         BallBuilder::default()
+    }
+
+    pub fn with_position(&mut self, position: Point<f32>) -> &mut BallBuilder {
+        self.position = Some(position);
+        self
+    }
+
+    pub fn with_velocity(&mut self, velocity: Velocity) -> &mut BallBuilder {
+        self.velocity = Some(velocity);
+        self
     }
 
     pub fn with_color(&mut self, color: Style) -> &mut BallBuilder {
@@ -36,31 +48,45 @@ impl BallBuilder {
     }
 
     pub fn build(&self, world: &World) -> Ball {
-        Ball::new(self.color, self.repr, world)
+        let mut rng = rand::thread_rng();
+        let r = |i: u16, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
+        let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
+        Ball {
+            position: self.position.unwrap_or_else(|| Point {
+                x: r(world.size.w, &mut rng),
+                y: r(world.size.h, &mut rng),
+            }),
+            velocity: self.velocity.unwrap_or_else(|| Velocity {
+                vx: v(&mut rng),
+                vy: v(&mut rng),
+            }),
+            color: self.color.unwrap_or_else(|| rng.gen()),
+            repr: self
+                .repr
+                .unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
+        }
+    }
+
+    pub fn build_several(&self, mut num_balls: usize, target: &mut Vec<Ball>, world: &World) {
+        const RETRIES: usize = 10; // try to minimize repetitions.
+        target.reserve(num_balls);
+        while num_balls > 0 {
+            target.push(
+                (0..RETRIES)
+                    .map(|_| self.build(&world))
+                    .filter(|candidate| target.iter().all(|b| candidate != b))
+                    .take(1)
+                    .next()
+                    .unwrap_or_else(|| self.build(&world)),
+            );
+            num_balls -= 1;
+        }
     }
 }
 
 impl Ball {
     const REPRS: [char; 12] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '☻', '❤', '♠', '♣', '♦'];
     pub const COMBINATIONS: usize = Ball::REPRS.len() * Style::NUM_COLORS;
-
-    fn new(color: Option<Style>, repr: Option<char>, world: &World) -> Ball {
-        let mut rng = rand::thread_rng();
-        let r = |i: u16, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
-        let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
-        Ball {
-            position: Point {
-                x: r(world.size.w, &mut rng),
-                y: r(world.size.h, &mut rng),
-            },
-            velocity: Velocity {
-                vx: v(&mut rng),
-                vy: v(&mut rng),
-            },
-            color: color.unwrap_or_else(|| rng.gen()),
-            repr: repr.unwrap_or_else(|| *Ball::REPRS.choose(&mut rng).unwrap()),
-        }
-    }
 }
 
 impl Component for Ball {

@@ -67,6 +67,7 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - improve game loop, with target frames per second as floats;
     - total overhaul in FrameBuffer, which now uses a sparse data matrix, controls rendering pipeline, and draws and clears only when needed;
 - implement user input commands (small PoC examples);
+    - super cool and more powerful BallBuilder
 - make the border an actual part of the board, allowing to change it (if there's no border, I could wrap around)
 - walls and other obstacles inside the board
 - detect overlaps and paint differently

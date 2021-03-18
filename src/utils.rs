@@ -4,13 +4,13 @@ pub struct Size {
     pub h: u16,
 }
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Velocity {
     pub vx: f32,
     pub vy: f32,
 }
 
-#[derive(Clone, Debug, PartialEq, Hash, Ord, PartialOrd)]
+#[derive(Clone, Copy, Debug, PartialEq, Hash, Ord, PartialOrd)]
 pub struct Point<T> {
     pub y: T,
     pub x: T,

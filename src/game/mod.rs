@@ -20,26 +20,15 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(size: Size, mut num_balls: usize) -> Game {
+    pub fn new(size: Size, num_balls: usize) -> Game {
         let world = World::new(size);
         let board = Board::new(size);
 
-        num_balls = num_balls.max(1).min(Ball::COMBINATIONS);
-        let mut balls = Vec::with_capacity(num_balls + 1);
-        balls.push(
-            BallBuilder::new()
-                .with_color(Style::RED)
-                .with_repr('◉')
-                .build(&world),
-        );
-        while balls.len() < num_balls {
-            balls.push(loop {
-                let candidate = BallBuilder::new().build(&world);
-                if balls.iter().all(|b| &candidate != b) {
-                    break candidate;
-                }
-            });
-        }
+        let mut balls = vec![BallBuilder::new()
+            .with_color(Style::RED)
+            .with_repr('◉')
+            .build(&world)];
+        BallBuilder::new().build_several(num_balls - 1, &mut balls, &world);
 
         let capacity = board.size_hint() + balls.iter().map(Component::size_hint).sum::<u16>();
         let frame_buffer = FrameBuffer::new(capacity);
