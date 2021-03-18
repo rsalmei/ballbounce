@@ -41,6 +41,15 @@ impl Game {
     }
 
     pub fn process_input(&mut self, key: Key) {
+        match key {
+            Key::Up => BallBuilder::new().build_several(1, &mut self.balls, &self.world),
+            Key::Down => {
+                if self.balls.len() > 1 {
+                    self.balls.pop();
+                }
+            }
+            _ => {}
+        }
     }
 
     pub fn update(&mut self) {
