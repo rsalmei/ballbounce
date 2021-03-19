@@ -14,7 +14,7 @@ impl Board {
 }
 
 impl Component for Board {
-    fn update(&mut self, world: &World) {}
+    fn update(&mut self, _world: &World) {}
 
     fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
         let (border_x, border_y) = (self.size.w - 1, self.size.h - 1);
