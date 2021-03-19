@@ -29,7 +29,7 @@ fn main() -> io::Result<()> {
     });
 
     let mut stdout = stdout().into_raw_mode().unwrap();
-    write!(stdout, "{}", clear::All)?;
+    write!(stdout, "{}{}", clear::All, cursor::Hide)?;
 
     let size = terminal_size().map_or(Size { w: 100, h: 30 }, |(w, h)| Size { w, h });
     let mut game = Game::new(
@@ -75,5 +75,6 @@ fn main() -> io::Result<()> {
             thread::sleep(Duration::from_millis(sleep_time as u64));
         }
     }
+    write!(stdout, "{}", cursor::Show)?;
     Ok(())
 }
