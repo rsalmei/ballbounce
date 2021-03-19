@@ -28,7 +28,7 @@ impl Game {
             .with_color(Style::RED)
             .with_repr('◉')
             .build(&world)];
-        BallBuilder::new().build_several(num_balls - 1, &mut balls, &world);
+        BallBuilder::new().extend(num_balls - 1, &mut balls, &world);
 
         let capacity = board.size_hint() + balls.iter().map(Component::size_hint).sum::<u16>();
         let frame_buffer = FrameBuffer::new(capacity);
@@ -42,11 +42,30 @@ impl Game {
 
     pub fn process_input(&mut self, key: Key) {
         match key {
-            Key::Up => BallBuilder::new().build_several(1, &mut self.balls, &self.world),
+            Key::Up => BallBuilder::new().extend(1, &mut self.balls, &self.world),
             Key::Down => {
                 if self.balls.len() > 1 {
                     self.balls.pop();
                 }
+            }
+            Key::Left => {
+                let old = self.balls.drain(1..).collect::<Vec<_>>();
+                old.iter().for_each(|b| {
+                    BallBuilder::new()
+                        .with_position(b.position)
+                        .with_velocity(b.velocity)
+                        .extend(1, &mut self.balls, &self.world)
+                })
+            }
+            Key::Right => {
+                let old = self.balls.drain(1..).collect::<Vec<_>>();
+                old.iter().for_each(|b| {
+                    BallBuilder::new()
+                        .with_position(b.position)
+                        .with_color(b.color)
+                        .with_repr(b.repr)
+                        .extend(1, &mut self.balls, &self.world)
+                })
             }
             _ => {}
         }

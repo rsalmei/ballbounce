@@ -66,9 +66,10 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - use termion, to leverage raw mode and input keys without echoing on screen, handling input on a separate thread;
     - improve game loop, with target frames per second as floats;
     - total overhaul in FrameBuffer, which now uses a sparse data matrix, controls rendering pipeline, and draws and clears only when needed;
-- implement user input commands (small PoC examples);
+- implement user input commands (small PoC examples)
     - super cool and more powerful BallBuilder
     - commands to dynamically insert and remove balls
+    - commands to reset (colors and representations) and (velocities) of all balls, always maintaining positions on the board and leaving the red ball untouched (leverages the cool BallBuilder powers)
 - make the border an actual part of the board, allowing to change it (if there's no border, I could wrap around)
 - walls and other obstacles inside the board
 - detect overlaps and paint differently

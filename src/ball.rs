@@ -8,8 +8,8 @@ use std::fmt::{Display, Formatter, Result};
 
 #[derive(Debug)]
 pub struct Ball {
-    position: Point<f32>,
-    velocity: Velocity,
+    pub position: Point<f32>,
+    pub velocity: Velocity,
     pub color: Style,
     pub repr: char,
 }
@@ -67,7 +67,7 @@ impl BallBuilder {
         }
     }
 
-    pub fn build_several(&self, mut num_balls: usize, target: &mut Vec<Ball>, world: &World) {
+    pub fn extend(&self, mut num_balls: usize, target: &mut Vec<Ball>, world: &World) {
         const RETRIES: usize = 10; // try to minimize repetitions.
         target.reserve(num_balls);
         while num_balls > 0 {
