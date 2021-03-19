@@ -10,7 +10,7 @@ use std::io::{self, stdin, stdout, Write};
 use std::sync::mpsc::{self, TryRecvError};
 use std::thread;
 use std::time::{Duration, Instant};
-use termion::cursor::Goto;
+use termion::cursor;
 use termion::event::Key;
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;

@@ -3,7 +3,7 @@ use crate::utils::Point;
 use std::collections::{HashMap, HashSet};
 use std::io::{self, Write};
 use std::mem;
-use termion::cursor::Goto;
+use termion::cursor;
 
 #[derive(Debug)]
 pub struct FrameBuffer {
@@ -45,7 +45,7 @@ fn display_clear<'a>(
     data: impl Iterator<Item = &'a &'a Point<u16>>,
 ) -> io::Result<()> {
     for point in data {
-        write!(stdout, "{} ", Goto(point.x + 1, point.y + 1))?
+        write!(stdout, "{} ", cursor::Goto(point.x + 1, point.y + 1))?
     }
     Ok(())
 }
@@ -58,7 +58,7 @@ fn display_buffer<'a>(
         write!(
             stdout,
             "{}{}",
-            Goto(point.x + 1, point.y + 1),
+            cursor::Goto(point.x + 1, point.y + 1),
             style!(style, repr)
         )?
     }
