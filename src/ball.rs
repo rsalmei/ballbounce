@@ -1,6 +1,6 @@
 use crate::colors::Style;
+use crate::domain::{Point, Velocity};
 use crate::game::{Component, FrameBuffer, World};
-use crate::utils::{Point, Velocity};
 use rand::rngs::ThreadRng;
 use rand::seq::SliceRandom;
 use rand::Rng;

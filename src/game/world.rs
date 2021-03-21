@@ -1,4 +1,4 @@
-use crate::utils::Size;
+use crate::domain::Size;
 
 #[derive(Debug)]
 pub struct World {

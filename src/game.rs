@@ -5,7 +5,7 @@ mod world;
 use crate::ball::{Ball, BallBuilder};
 use crate::board::Board;
 use crate::colors::Style;
-use crate::utils::Size;
+use crate::domain::Size;
 pub use component::Component;
 pub use frame_buffer::FrameBuffer;
 use std::io::{self, Write};

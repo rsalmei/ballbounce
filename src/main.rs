@@ -2,9 +2,10 @@
 mod colors;
 mod ball;
 mod board;
+mod domain;
 mod game;
-mod utils;
 
+use domain::Size;
 use game::Game;
 use std::fmt::Write as _Write;
 use std::io::{self, stdin, stdout, Write};
@@ -16,7 +17,6 @@ use termion::event::Key;
 use termion::input::TermRead;
 use termion::raw::IntoRawMode;
 use termion::{clear, terminal_size};
-use utils::Size;
 
 const FRAMES_PER_SECOND: f32 = 30.;
 const SKIP_TICKS: i64 = (1000. / FRAMES_PER_SECOND) as i64;

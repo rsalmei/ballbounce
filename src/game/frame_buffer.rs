@@ -1,5 +1,5 @@
 use crate::colors::Style;
-use crate::utils::Point;
+use crate::domain::Point;
 use std::collections::{HashMap, HashSet};
 use std::io::{self, Write};
 use std::mem;
