@@ -6,6 +6,7 @@ mod game;
 mod utils;
 
 use game::Game;
+use std::fmt::Write as _Write;
 use std::io::{self, stdin, stdout, Write};
 use std::sync::mpsc::{self, TryRecvError};
 use std::thread;
@@ -39,6 +40,7 @@ fn main() -> io::Result<()> {
         },
         20,
     );
+    let mut info = String::with_capacity(128);
 
     loop {
         // main game loop.
@@ -58,16 +60,23 @@ fn main() -> io::Result<()> {
         let frame_time = (render_end - start).as_millis(); // TODO how to sample the average `frame_time` per second?
 
         write!(
-            stdout,
-            "{}balls: {}  frame_time: {:2} ({:2} {:2} {:2}){}",
-            Goto(1, size.h),
+            info,
+            "balls: {}  frame_time: {:2} ({:2} {:2} {:2})  ↑ +ball  ↓ -ball  ← shuffle balls  → shuffle board",
             game.num_balls(),
             frame_time,
             (input_end - start).as_millis(),
             (update_end - input_end).as_millis(),
             (render_end - update_end).as_millis(),
-            clear::UntilNewline
+        ).unwrap();
+        write!(
+            stdout,
+            "{}{:.*}{}",
+            cursor::Goto(1, size.h),
+            size.w as usize,
+            info,
+            clear::UntilNewline,
         )?;
+        info.clear();
         stdout.flush()?;
 
         let sleep_time = SKIP_TICKS - frame_time as i64;
