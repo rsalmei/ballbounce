@@ -4,7 +4,7 @@ use crate::game::{Component, FrameBuffer};
 
 #[derive(Debug)]
 pub struct Board {
-    pub size: Size,
+    size: Size,
 }
 
 impl Board {
