@@ -65,13 +65,15 @@ Here's how I feel I can challenge myself even more, in order of complexity, foll
     - better write! error handling;
     - use termion, to leverage raw mode and input keys without echoing on screen, handling input on a separate thread;
     - improve game loop, with target frames per second as floats;
-    - total overhaul in FrameBuffer, which now uses a sparse data matrix, controls rendering pipeline, and draws and clears only when needed;
-- implement user input commands
+    - total overhaul in FrameBuffer, which now uses a sparse data matrix, controls rendering pipeline, and draws and clears only when needed.
+- ~implement user input commands~ ![done in v0.8.0](https://img.shields.io/badge/done%20in-v0.8.0-orange)
     - super cool and more powerful BallBuilder;
     - commands to dynamically insert and remove balls;
-    - commands to reset (colors and representations) and (velocities) of all balls, always maintaining positions on the board and leaving the red ball untouched (leverages the cool BallBuilder powers);
+    - commands to reset [colors and representations] and [velocities] of all balls, always maintaining positions on the board and leaving the red ball untouched (leverages the new cool BallBuilder powers);
+    - general refac, moving main game loop into Game.
+
 - make the border an actual part of the board, allowing to change it (if there's no border, I could wrap around)
-- walls and other obstacles inside the board
+- walls and other obstacles inside the world
 - detect overlaps and paint differently
 - make the balls leave a trail
 - include CLI arguments (clap or structopt) for board size, initial number of balls and fps target
@@ -90,4 +92,5 @@ Ok, what do you think?
 - Could it improve in any other way?
 
 You can help me! Please open an issue and tell me about it...
+<br>I hope you can learn something too!
 <br>Thank you!
