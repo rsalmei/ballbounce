@@ -83,6 +83,7 @@ impl Game {
         for c in self.balls.iter() {
             c.draw_to(&mut self.frame_buffer)
         }
+
         self.frame_buffer.render_to(stdout)
     }
 

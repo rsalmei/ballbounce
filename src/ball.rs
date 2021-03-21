@@ -107,10 +107,6 @@ impl Component for Ball {
     fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
         frame_buffer.draw(self.position.truncate(), self.color, self.repr);
     }
-
-    fn size_hint(&self) -> u16 {
-        1
-    }
 }
 
 impl Display for Ball {

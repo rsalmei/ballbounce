@@ -1,5 +1,5 @@
 use crate::colors::Style;
-use crate::game::{Component, FrameBuffer, World};
+use crate::game::{Component, FrameBuffer};
 use crate::utils::{Point, Size};
 
 #[derive(Debug)]
@@ -14,8 +14,6 @@ impl Board {
 }
 
 impl Component for Board {
-    fn update(&mut self, _world: &World) {}
-
     fn draw_to(&self, frame_buffer: &mut FrameBuffer) {
         let (border_x, border_y) = (self.size.w - 1, self.size.h - 1);
         (0..self.size.w).for_each(|x| {
