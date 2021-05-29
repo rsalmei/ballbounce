@@ -8,14 +8,17 @@
 
 I'm learning Rust, this is a small and fun project just to challenge myself.
 
-It works! This is the `v0.4.0`:
-![ballbounce-v4](img/ballbounce-v4.gif)
+It works! This is the `v0.8.0`:
+![ballbounce-v8](img/ballbounce-v8.gif)
 
 <details>
-<summary>It was a long way to get to the above... Here are some pieces of this journey.</summary>
+<summary>But it was a long way to get there! Here are some pieces of the journey...</summary>
 
-This was the first version.
+This was the first version:
 ![ballbounce-v1](img/ballbounce.gif)
+
+This was the v0.4.0:
+![ballbounce-v4](img/ballbounce-v4.gif)
 </details>
 
 ---
