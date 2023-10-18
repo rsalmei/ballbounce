@@ -73,11 +73,11 @@ impl BallBuilder {
         while num_balls > 0 {
             target.push(
                 (0..RETRIES)
-                    .map(|_| self.build(&world))
+                    .map(|_| self.build(world))
                     .filter(|candidate| target.iter().all(|b| candidate != b))
                     .take(1)
                     .next()
-                    .unwrap_or_else(|| self.build(&world)),
+                    .unwrap_or_else(|| self.build(world)),
             );
             num_balls -= 1;
         }
@@ -113,8 +113,8 @@ impl Display for Ball {
     // unused for now.
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{}", style!(self.color, self.repr))?;
-        write!(f, "{}{:?}", style!(Style::DIM, "\tposition"), self.position)?;
-        write!(f, "{}{:?}", style!(Style::DIM, "\tvelocity"), self.velocity)
+        write!(f, "{}{:?}", style!(Style::Dim, "\tposition"), self.position)?;
+        write!(f, "{}{:?}", style!(Style::Dim, "\tvelocity"), self.velocity)
     }
 }
 

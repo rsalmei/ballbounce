@@ -7,7 +7,7 @@ use std::fmt::{self, Display, Formatter};
 ///     write!(f, "result: {}, time: {}", style!(Style::RED, result), time)?;
 macro_rules! style {
     ($s:expr, $t:expr) => {
-        format_args!("{}{}{}", $s.data(), $t, $crate::colors::Style::RESET)
+        format_args!("{}{}{}", $s.data(), $t, $crate::colors::Style::Reset)
     };
 }
 
@@ -24,19 +24,19 @@ macro_rules! style {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub enum Style {
     // colors.
-    BLUE,
-    GREEN,
-    YELLOW,
-    RED,
-    MAGENTA,
-    CYAN,
-    ORANGE,
+    Blue,
+    Green,
+    Yellow,
+    Red,
+    Magenta,
+    Cyan,
+    Orange,
     // decorations.
-    BOLD,
-    DIM,
-    ITALIC,
-    UNDERLINE,
-    RESET,
+    Bold,
+    Dim,
+    Italic,
+    Underline,
+    Reset,
 }
 
 impl Display for Style {
@@ -50,18 +50,18 @@ impl Style {
 
     pub fn data(&self) -> &str {
         match self {
-            Style::BLUE => "\x1b[94m",
-            Style::GREEN => "\x1b[92m",
-            Style::YELLOW => "\x1b[93m",
-            Style::RED => "\x1b[91m",
-            Style::MAGENTA => "\x1b[95m",
-            Style::CYAN => "\x1b[96m",
-            Style::ORANGE => "\x1b[38;5;208m",
-            Style::BOLD => "\x1b[1m",
-            Style::DIM => "\x1b[2m",
-            Style::ITALIC => "\x1b[3m",
-            Style::UNDERLINE => "\x1b[4m",
-            Style::RESET => "\x1b[0m",
+            Style::Blue => "\x1b[94m",
+            Style::Green => "\x1b[92m",
+            Style::Yellow => "\x1b[93m",
+            Style::Red => "\x1b[91m",
+            Style::Magenta => "\x1b[95m",
+            Style::Cyan => "\x1b[96m",
+            Style::Orange => "\x1b[38;5;208m",
+            Style::Bold => "\x1b[1m",
+            Style::Dim => "\x1b[2m",
+            Style::Italic => "\x1b[3m",
+            Style::Underline => "\x1b[4m",
+            Style::Reset => "\x1b[0m",
         }
     }
 }
@@ -69,13 +69,13 @@ impl Style {
 impl Distribution<Style> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Style {
         match rng.gen_range(0..Style::NUM_COLORS) {
-            0 => Style::BLUE,
-            1 => Style::GREEN,
-            2 => Style::YELLOW,
-            3 => Style::RED,
-            4 => Style::MAGENTA,
-            5 => Style::CYAN,
-            _ => Style::ORANGE,
+            0 => Style::Blue,
+            1 => Style::Green,
+            2 => Style::Yellow,
+            3 => Style::Red,
+            4 => Style::Magenta,
+            5 => Style::Cyan,
+            _ => Style::Orange,
         }
     }
 }

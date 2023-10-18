@@ -38,7 +38,7 @@ impl Game {
         let board = Board::new(size);
 
         let mut balls = vec![BallBuilder::new()
-            .with_color(Style::RED)
+            .with_color(Style::Red)
             .with_repr('◉')
             .build(&world)];
         BallBuilder::new().extend(num_balls - 1, &mut balls, &world);
