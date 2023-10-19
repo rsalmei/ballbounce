@@ -2,7 +2,9 @@
 mod colors;
 mod ball;
 mod board;
+mod component;
 mod domain;
+mod frame_buffer;
 mod game;
 
 use domain::Size;

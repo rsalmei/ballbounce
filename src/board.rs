@@ -1,10 +1,11 @@
 use crate::colors::Style;
+use crate::component::Component;
 use crate::domain::{Point, Size};
-use crate::game::{Component, FrameBuffer};
+use crate::frame_buffer::FrameBuffer;
 
 #[derive(Debug)]
 pub struct Board {
-    size: Size,
+    pub size: Size,
 }
 
 impl Board {

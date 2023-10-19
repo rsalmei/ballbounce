@@ -1,13 +1,9 @@
-mod component;
-mod frame_buffer;
-mod world;
-
 use crate::ball::{Ball, BallBuilder};
 use crate::board::Board;
 use crate::colors::Style;
+use crate::component::Component;
 use crate::domain::Size;
-pub use component::Component;
-pub use frame_buffer::FrameBuffer;
+use crate::frame_buffer::FrameBuffer;
 use std::fmt::Write as _Write;
 use std::io::{self, Write};
 use std::sync::mpsc::{self, TryRecvError};
@@ -16,13 +12,11 @@ use std::time::{Duration, Instant};
 use termion::clear;
 use termion::cursor;
 use termion::event::Key;
-pub use world::World;
 
 const FRAMES_PER_SECOND: f32 = 30.;
 const SKIP_TICKS: i64 = (1000. / FRAMES_PER_SECOND) as i64;
 
 pub struct Game {
-    world: World,
     board: Board,
     balls: Vec<Ball>,
     frame_buffer: FrameBuffer,
@@ -34,19 +28,17 @@ impl Game {
             w: size.w,
             h: size.h - 1,
         };
-        let world = World::new(size);
         let board = Board::new(size);
 
         let mut balls = vec![BallBuilder::new()
             .with_color(Style::Red)
             .with_repr('◉')
-            .build_one(&world)];
-        BallBuilder::new().build_multiple(num_balls - 1, &mut balls, &world);
+            .build_one(&board)];
+        BallBuilder::new().build_multiple(num_balls - 1, &mut balls, &board);
 
         let capacity = board.size_hint() + balls.iter().map(Component::size_hint).sum::<u16>();
         let frame_buffer = FrameBuffer::new(capacity);
         Game {
-            world,
             board,
             balls,
             frame_buffer,
@@ -80,8 +72,8 @@ impl Game {
             write!(
                 stdout,
                 "{}{:.*}{}",
-                cursor::Goto(1, self.world.size.h + 1),
-                self.world.size.w as usize,
+                cursor::Goto(1, self.board.size.h + 1),
+                self.board.size.w as usize,
                 info,
                 clear::UntilNewline,
             )?; // write! to a Write returns io::Error.
@@ -98,7 +90,7 @@ impl Game {
 
     fn process_input(&mut self, key: Key) {
         match key {
-            Key::Up => BallBuilder::new().build_multiple(1, &mut self.balls, &self.world),
+            Key::Up => BallBuilder::new().build_multiple(1, &mut self.balls, &self.board),
             Key::Down => {
                 if self.balls.len() > 1 {
                     self.balls.pop();
@@ -110,7 +102,7 @@ impl Game {
                     BallBuilder::new()
                         .with_position(b.position)
                         .with_velocity(b.velocity)
-                        .build_multiple(1, &mut self.balls, &self.world)
+                        .build_multiple(1, &mut self.balls, &self.board)
                 })
             }
             Key::Right => {
@@ -120,7 +112,7 @@ impl Game {
                         .with_position(b.position)
                         .with_color(b.color)
                         .with_repr(b.repr)
-                        .build_multiple(1, &mut self.balls, &self.world)
+                        .build_multiple(1, &mut self.balls, &self.board)
                 })
             }
             _ => {}
@@ -128,9 +120,8 @@ impl Game {
     }
 
     fn process_update(&mut self) {
-        self.board.update(&self.world);
         for c in self.balls.iter_mut() {
-            c.update(&self.world)
+            c.update(&self.board)
         }
     }
 
