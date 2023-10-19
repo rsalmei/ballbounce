@@ -47,7 +47,7 @@ impl BallBuilder {
         self
     }
 
-    pub fn build(&self, world: &World) -> Ball {
+    pub fn build_one(&self, world: &World) -> Ball {
         let mut rng = rand::thread_rng();
         let r = |i: u16, rng: &mut ThreadRng| rng.gen::<f32>() * i as f32;
         let v = |rng: &mut ThreadRng| r(4, rng) - 2.;
@@ -67,17 +67,15 @@ impl BallBuilder {
         }
     }
 
-    pub fn extend(&self, mut num_balls: usize, target: &mut Vec<Ball>, world: &World) {
+    pub fn build_multiple(&self, mut num_balls: usize, target: &mut Vec<Ball>, world: &World) {
         const RETRIES: usize = 10; // try to minimize repetitions.
         target.reserve(num_balls);
         while num_balls > 0 {
             target.push(
                 (0..RETRIES)
-                    .map(|_| self.build(world))
-                    .filter(|candidate| target.iter().all(|b| candidate != b))
-                    .take(1)
-                    .next()
-                    .unwrap_or_else(|| self.build(world)),
+                    .map(|_| self.build_one(world))
+                    .find(|candidate| target.iter().all(|b| candidate != b))
+                    .unwrap_or_else(|| self.build_one(world)),
             );
             num_balls -= 1;
         }

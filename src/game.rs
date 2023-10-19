@@ -40,8 +40,8 @@ impl Game {
         let mut balls = vec![BallBuilder::new()
             .with_color(Style::Red)
             .with_repr('◉')
-            .build(&world)];
-        BallBuilder::new().extend(num_balls - 1, &mut balls, &world);
+            .build_one(&world)];
+        BallBuilder::new().build_multiple(num_balls - 1, &mut balls, &world);
 
         let capacity = board.size_hint() + balls.iter().map(Component::size_hint).sum::<u16>();
         let frame_buffer = FrameBuffer::new(capacity);
@@ -101,7 +101,7 @@ impl Game {
 
     fn process_input(&mut self, key: Key) {
         match key {
-            Key::Up => BallBuilder::new().extend(1, &mut self.balls, &self.world),
+            Key::Up => BallBuilder::new().build_multiple(1, &mut self.balls, &self.world),
             Key::Down => {
                 if self.balls.len() > 1 {
                     self.balls.pop();
@@ -113,7 +113,7 @@ impl Game {
                     BallBuilder::new()
                         .with_position(b.position)
                         .with_velocity(b.velocity)
-                        .extend(1, &mut self.balls, &self.world)
+                        .build_multiple(1, &mut self.balls, &self.world)
                 })
             }
             Key::Right => {
@@ -123,7 +123,7 @@ impl Game {
                         .with_position(b.position)
                         .with_color(b.color)
                         .with_repr(b.repr)
-                        .extend(1, &mut self.balls, &self.world)
+                        .build_multiple(1, &mut self.balls, &self.world)
                 })
             }
             _ => {}
