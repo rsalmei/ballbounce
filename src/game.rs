@@ -56,8 +56,9 @@ impl Game {
     pub fn run(&mut self, stdout: &mut impl Write, rx: mpsc::Receiver<Key>) -> io::Result<()> {
         let mut info = String::with_capacity(128);
 
+        let (mut frame, start) = (1u64, Instant::now());
         loop {
-            let start = Instant::now();
+            let start_frame = Instant::now();
             match rx.try_recv() {
                 Ok(Key::Ctrl('c')) | Ok(Key::Char('q')) | Err(TryRecvError::Disconnected) => {
                     return Ok(());
@@ -65,21 +66,16 @@ impl Game {
                 Ok(k) => self.process_input(k),
                 Err(TryRecvError::Empty) => {}
             }
-            let input_end = Instant::now();
             self.process_update();
-            let update_end = Instant::now();
             self.process_render(stdout)?;
-            let render_end = Instant::now();
-            let frame_time = (render_end - start).as_millis(); // TODO how to sample the average `frame_time` per second?
+            let frame_time = start_frame.elapsed().as_millis(); // TODO how to sample the average `frame_time` per second?
 
             write!(
                 info,
-                "balls: {}  frame_time: {:2} ({:2} {:2} {:2})  ↑ +ball  ↓ -ball  ← shuffle balls  → shuffle board",
+                "balls: {}  fps: {:3.0} ({:2}ms)    ↑ +ball  ↓ -ball  ← shuffle lables  → shuffle balls",
                 self.balls.len(),
+                frame as f64 / start.elapsed().as_secs_f64(),
                 frame_time,
-                (input_end - start).as_millis(),
-                (update_end - input_end).as_millis(),
-                (render_end - update_end).as_millis(),
             ).unwrap(); // write! to a String returns fmt::Error.
             write!(
                 stdout,
@@ -96,6 +92,7 @@ impl Game {
             if sleep_time >= 0 {
                 thread::sleep(Duration::from_millis(sleep_time as u64));
             }
+            frame += 1;
         }
     }
 
