@@ -27,7 +27,7 @@ impl Component for Board {
         });
     }
 
-    fn size_hint(&self) -> u16 {
-        self.size.w * 2 + self.size.h * 2
+    fn size_hint(&self) -> usize {
+        (self.size.w as usize + self.size.h as usize) * 2
     }
 }

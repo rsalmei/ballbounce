@@ -6,7 +6,7 @@ pub trait Component {
     fn action(&mut self, _key: Key) {}
     fn update(&mut self, _board: &Board) {}
     fn draw_to(&self, frame_buffer: &mut FrameBuffer);
-    fn size_hint(&self) -> u16 {
+    fn size_hint(&self) -> usize {
         1
     }
 }

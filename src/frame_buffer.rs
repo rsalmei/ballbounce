@@ -12,8 +12,7 @@ pub struct FrameBuffer {
 }
 
 impl FrameBuffer {
-    pub(super) fn new(capacity: u16) -> FrameBuffer {
-        let capacity = capacity as usize;
+    pub(super) fn new(capacity: usize) -> FrameBuffer {
         FrameBuffer {
             data: HashMap::with_capacity(capacity),
             data_back: HashMap::with_capacity(capacity),

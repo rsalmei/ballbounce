@@ -36,7 +36,7 @@ impl Game {
             .build_one(&board)];
         BallBuilder::new().build_multiple(num_balls - 1, &mut balls, &board);
 
-        let capacity = board.size_hint() + balls.iter().map(Component::size_hint).sum::<u16>();
+        let capacity = board.size_hint() + balls.iter().map(Component::size_hint).sum::<usize>();
         let frame_buffer = FrameBuffer::new(capacity);
         Game {
             board,
