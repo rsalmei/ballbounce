@@ -1,6 +1,6 @@
 use crate::ball::{Ball, BallBuilder};
 use crate::board::Board;
-use crate::colors::Style;
+use crate::color;
 use crate::component::Component;
 use crate::domain::Size;
 use crate::frame_buffer::FrameBuffer;
@@ -31,7 +31,7 @@ impl Game {
         let board = Board::new(size);
 
         let mut balls = vec![BallBuilder::new()
-            .with_color(Style::Red)
+            .with_color(color::RED)
             .with_repr('◉')
             .build_one(&board)];
         BallBuilder::new().build_multiple(num_balls - 1, &mut balls, &board);

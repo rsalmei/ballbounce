@@ -1,4 +1,4 @@
-use crate::colors::Style;
+use crate::color::Style;
 use crate::domain::Point;
 use std::collections::{HashMap, HashSet};
 use std::io::{self, Write};

@@ -1,5 +1,5 @@
 #[macro_use]
-mod colors;
+mod color;
 mod ball;
 mod board;
 mod component;

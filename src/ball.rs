@@ -1,5 +1,5 @@
 use crate::board::Board;
-use crate::colors::Style;
+use crate::color::{self, Style};
 use crate::component::Component;
 use crate::domain::{Point, Velocity};
 use crate::frame_buffer::FrameBuffer;
@@ -85,7 +85,7 @@ impl BallBuilder {
 }
 
 impl Ball {
-    const REPRS: [char; 12] = ['◉', '●', '❖', '▲', '✢', '✦', '★', '☻', '❤', '♠', '♣', '♦'];
+    const REPRS: &[char] = &['◉', '●', '❖', '▲', '✢', '✦', '★', '☻', '❤', '♠', '♣', '♦'];
 }
 
 impl Component for Ball {
@@ -113,8 +113,8 @@ impl Display for Ball {
     // unused for now.
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{}", style!(self.color, self.repr))?;
-        write!(f, "{}{:?}", style!(Style::Dim, "\tposition"), self.position)?;
-        write!(f, "{}{:?}", style!(Style::Dim, "\tvelocity"), self.velocity)
+        write!(f, "{}{:?}", style!(color::DIM, "\tposition"), self.position)?;
+        write!(f, "{}{:?}", style!(color::DIM, "\tvelocity"), self.velocity)
     }
 }
 
